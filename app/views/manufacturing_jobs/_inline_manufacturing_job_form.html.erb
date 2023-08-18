@@ -1,0 +1,29 @@
+<%= simple_form_for([@phase,@new_manufacturing_job], :html => {:class => "validate"}, remote: true) do |f| %>
+
+  <div class="form-group">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, :required => true, :class => "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <% ordered_parts = @phase.parts.joins(:panel => :structure).order('structures.name ASC, panels.side_position ASC') %>
+    <div class="btn-group">
+      <%= f.collection_select :part_ids, ordered_parts, :id, :scope_name, {}, {:multiple => true, :data => {type: 'Parts'}, :class => 'form-control multiselect-select'} %>
+      <button class="multiselect-select-all btn btn-primary">Select All</button>
+    </div>
+    <%= f.submit "Generate", :data => {'loading-text' => 'Generating...'}, :class => "btn pull-right btn-success" %>
+  </div>
+
+
+
+  <div class="form-group text-right">
+  <%= f.hidden_field :phase_id, :value => @phase.id %>
+  </div>
+
+  <div id="multiselect-values" class="alert alert-success">
+    <h4>Queued for MFG</h4>
+    <em>Nothing selected</em>
+  </div>
+
+<% end %>
+

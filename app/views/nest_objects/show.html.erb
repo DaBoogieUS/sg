@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Part:</strong>
+  <%= @nest_object.part_id %>
+</p>
+
+<p>
+  <strong>Nest:</strong>
+  <%= @nest_object.nest_id %>
+</p>
+
+<p>
+  <strong>X:</strong>
+  <%= @nest_object.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @nest_object.y %>
+</p>
+
+<%= link_to 'Edit', edit_nest_object_path(@nest_object) %> |
+<%= link_to 'Back', nest_objects_path %>

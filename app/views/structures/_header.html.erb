@@ -1,0 +1,19 @@
+<div class="page-header">
+  <% if @structures_show %>
+    <h2>
+    <span class="progress-radial big progress-<%=@structure.percentage%>"></span> Structure <%= @structure.name %>
+    <% if @current_role == 'admin' %>
+      <%= link_to edit_phase_structure_path(@phase,@structure), :class => 'btn btn-default btn-xs' do %>
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      <% end %>
+    </h2>
+    <%= render 'css_model' %>
+    <% end %>
+  <% elsif @structures_new %>
+    <h2>New Structure</h2>
+  <% elsif @structures_edit %>
+    <h2>Editing Structure <%= @structure.name %></h2>
+  <% elsif @structures_index %>
+    <h2>Phase <%= @phase.name %> <small>Structures</small></h2>
+  <% end %>
+</div>

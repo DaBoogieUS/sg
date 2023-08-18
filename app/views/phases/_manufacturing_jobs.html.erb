@@ -1,0 +1,38 @@
+<% if @current_role == 'admin' %>
+  <% number = 2 %>
+<% else %>
+  <% number = 1 %>
+<% end %>
+<% if @phase.structures.length > number %>
+<h3>Manufacturing Jobs</h3>
+<div id="manufacturing_jobs_wrap">
+
+  <% ordered_manufacturing_jobs = @phase.manufacturing_jobs.order('created_at DESC') %>
+  <% if ordered_manufacturing_jobs.length > 0 %>
+  <div id="manufacturing_jobs" class="panel-group">
+    <%= render ordered_manufacturing_jobs %>
+  </div>
+  <% else %>
+    <div class="block">
+      <span class="text-muted"><em>No Manufacturing Jobs</em></span>
+    </div>
+  <% end %>
+
+  <% if @current_role == 'admin' %>
+  <div id="inline-manufacturing-job-form" class="inline_form hidden_inline_form">
+    <%= render 'manufacturing_jobs/inline_manufacturing_job_form', :manufacturing_job => @phase.manufacturing_jobs.new %>
+  </div>
+  <div class="form-group text-right">
+    <button data-form="inline-manufacturing-job-form" class="show_inline_form btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Generate</button>
+  </div>
+  <% end %>
+
+</div>
+<% else %>
+  <h3>Manufacturing Jobs</h3>
+  <div id="manufacturing_jobs">
+    <div class="block">
+      <span class="text-muted"><em>No Structures</em></span>
+    </div>
+  </div>
+<% end %>

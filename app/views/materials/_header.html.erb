@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h2>
+    <% if @materials_show %>
+      <%= @material.name %>
+      <% if @current_role == 'admin' %>
+        <%= link_to edit_material_path(@material), :class => 'btn btn-default btn-xs' do %>
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        <% end %>
+      <% end %>
+    <% elsif @materials_new %>
+      New Material
+    <% elsif @materials_edit %>
+      Editing <%= @material.name %>
+    <% elsif @materials_index %>
+      Materials
+    <% end %>
+  </h2>
+</div>

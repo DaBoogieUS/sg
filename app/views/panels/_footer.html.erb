@@ -1,0 +1,19 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @panels_show || @panels_new %>
+      <%= link_to phase_structure_path(@phase,@structure), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Structure <%= @structure.name %>
+      <% end %>
+    <% elsif @panels_edit %>
+      <%= link_to phase_structure_path(@phase,@structure), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Structure <%= @structure.name %>
+      <% end %>
+    <% elsif @panels_index %>
+      <%= link_to new_structure_panel_path(@structure), :class => 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-plus"></span> New Panel
+      <% end %>
+    <% end %>
+  </div>
+</div>
+</footer>

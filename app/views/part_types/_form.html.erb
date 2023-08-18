@@ -1,0 +1,58 @@
+<%= simple_form_for @part_type, :html => { :multipart => true, :class => 'validate' }  do |f| %>
+  <%= f.error_notification %>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <% if !@part_types_edit %>
+          <th><%= f.label :name %></th>
+          <th><%= f.label :version %></th>
+        <% end %>
+        <th><%= f.label :material_id %></th>
+        <th><%= f.label :nestable %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <% if !@part_types_edit %>
+          <td><%= f.text_field :name, :required => true, :class => 'form-control' %></td>
+          <td><%= select :part_type, :version, { "1" => 1, "2" => 2, "3" => 3}, {}, :class => 'form-control' %></td>
+        <% end %>
+        <td><%= f.collection_select :material_id, Material.all, :id, :name, {}, {:class => 'form-control'} %></td>
+        <td><%= f.check_box :nestable, :class => "checkbox" %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <% if !@part_types_edit %>
+    <%= f.hidden_field :name %>
+    <%= f.hidden_field :version %>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :description %><br>
+    <%= f.text_area :description, :rows => 8, :class => "form-control" %>
+  </div>
+
+  <div class="form-group form-image-container">
+    <%= f.label :part_type_image, 'Image' %><br>
+    <% if @part_types_edit && @part_type.part_type_image.presence %>
+      <div class="form-image-view">
+        <%= image_tag @part_type.part_type_image.url(:thumb) %><br>
+        <a href="#" class="replace-image btn btn-primary btn-sm">Replace Image</a>
+        <br>
+        <br>
+        <%= f.check_box :image_delete %> <%= f.label :image_delete, 'Delete image', :class => "btn btn-danger btn-xs" %>
+      </div>
+      <div class="form-image-field">
+        <%= f.file_field :part_type_image %>
+      </div>
+    <% else %>
+      <%= f.file_field :part_type_image %>
+    <% end %>
+  </div>
+
+  <div class="form-group text-right">
+    <%= f.button :submit, :class => 'btn btn-success' %>
+  </div>
+<% end %>

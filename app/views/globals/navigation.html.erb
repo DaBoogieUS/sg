@@ -1,0 +1,116 @@
+<% if @current_user %>
+<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a href="<%= root_url %>" class="navbar-brand emblem">
+      <img src="<%= root_url %>logo.png" />
+    </a>
+    <%#= link_to "Structure Guard", root_url, :class => 'navbar-brand' %>
+  </div>
+
+  <% clients = Client.all %>
+  <% jobs = Job.all.order('created_at DESC') %>
+  <% phases = Phase.all %>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+    <ul class="nav navbar-nav">
+
+      <% if clients.length > 0 %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clients <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'All Clients', clients_path %></li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Clients</li>
+          <% clients.each do |client| %>
+            <li><%= link_to client.name, client_path(client) %></li>
+          <% end %>
+        </ul>
+      </li>
+     <% else %>
+      <li class="dropdown disabled">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clients</a>
+      </li>
+      <% end %>
+
+      <% if jobs.length > 0 %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jobs <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <% first = true %>
+        <% clients.each do |client| %>
+          <% if first == true %>
+            <% first = false %>
+          <% else %>
+            <li class="divider"></li>
+          <% end %>
+          <li class="dropdown-header"><%= client.name %></li>
+          <% client.jobs.each do |job| %>
+            <li><%= link_to job.name, client_job_path(job.client,job) %></li>
+          <% end %>
+        <% end %>
+        </ul>
+      </li>
+      <% else %>
+      <li class="dropdown disabled">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jobs</a>
+      </li>
+      <% end %>
+
+      <% if phases.length > 0 %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Phases <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <% first = true %>
+          <% jobs.each do |job| %>
+            <% if first == true %>
+              <% first = false %>
+            <% else %>
+              <li class="divider"></li>
+            <% end %>
+            <li class="dropdown-header"><%= job.name %></li>
+
+            <% job.phases.order('created_at DESC').each do |phase| %>
+              <li><%= link_to 'Phase '+phase.name, job_phase_path(phase.job,phase) %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </li>
+      <% else %>
+      <li class="dropdown disabled">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Phases</a>
+      </li>
+      <% end %>
+
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Materials', materials_path %></li>
+          <li><%= link_to 'Panel Models', panel_models_path %></li>
+          <li><%= link_to 'Part Types', part_types_path %></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% if @current_user %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= @current_user.username %> (<%= @current_user.role %>) <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Edit Account', edit_user_path(@current_user) %></li>
+          <li><%= link_to "Log out", log_out_path %></li>
+          <% if @current_user.role == 'admin' %>
+          <li class="divider"></li>
+          <li><%= link_to "Manage Users", users_path %></li>
+          <% end %>
+        </ul>
+      </li>
+      <% end %>
+    </ul>
+   </div>
+</nav>
+<% end %>

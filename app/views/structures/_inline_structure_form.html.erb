@@ -1,0 +1,35 @@
+<%= simple_form_for([@phase,@new_structure], html: { class: "validate" }, remote: true) do |f| %>
+
+  <% width_options = (2..192).to_a.map {|a| a / 2.0 } %>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th><%= f.label :name %></th>
+        <th class="text-center"><%= f.label :quick_w, 'Width' %></th>
+        <th class="text-center"><%= f.label :quick_l, 'Length' %></th>
+        <th class="text-center"><%= f.label :quick_h, 'Height' %></th>
+        <th class="text-center"><%= f.label :quick_def, 'Deflector' %></th>
+        <th class="text-center"><%= f.label :quick_bur, 'Buried' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= f.text_field :name, required: true, class: "form-control" %></td>
+        <td class="text-center"><%= f.select(:quick_w, width_options, { selected: '40.0', required: true }, class: 'form-control') %></td>
+        <td class="text-center"><%= f.select(:quick_l, width_options, { selected: '40.0', required: true }, class: 'form-control') %></td>
+        <td class="text-center"><%= f.select :quick_h, width_options, { selected: '48.0', required: true }, class: 'form-control' %></td>
+        <td class="text-center"><%= f.check_box :quick_def, checked: 'checked', class: 'checkbox checkbox-inline' %></td>
+        <td class="text-center"><%= f.check_box :quick_bur, class: 'checkbox checkbox-inline' %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <%= f.hidden_field :phase_id, value: @phase.id %>
+
+  <div class="form-group text-right">
+    <%= f.submit "Submit", data: {'loading-text' => 'Submitting...'}, class: "btn btn-success" %>
+  </div>
+
+<% end %>
+

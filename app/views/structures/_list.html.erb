@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Structure</th>
+          <th>Panels</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody id="structures">
+        <% ordered_structures = @phase.structures.order('name ASC') %>
+        <%= render ordered_structures, structure: @structure, phase: @phase %>
+      </tbody>
+    </table>
+
+    <div class="form-group text-right">
+      <button data-form="inline-structure-form" class="show_inline_form btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Structure</button>
+    </div>
+    <div id="inline-structure-form" class="inline_form hidden_inline_form">
+      <%= render 'inline_structure_form', :structure => @phase.structures.new %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+<%
+has_deflector = panel.deflector
+is_buried = panel.buried
+assembled = panel.is_assembled
+manufactured = panel.is_manufactured
+%>
+<tr>
+
+  <td>
+  <% if !@panels_show %>
+    <%= link_to panel_letter(panel), structure_panel_path(@structure, panel), :class => 'btn btn-xs btn-primary' %>
+  <% else %>
+    <%= link_to panel_letter(panel), structure_panel_path(@structure, panel), :class => 'btn btn-xs disabled btn-primary' %>
+  <% end %>
+
+  <% if panel.panel_model.panel_model_image.presence %>
+    <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#<%= panel.id %>">
+      <span class="glyphicon glyphicon-expand"></span>
+    </button>
+    <div class="modal fade" id="<%= panel.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= panel.id %>_title" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="<%= panel.id %>_title"><%= panel.structure.name %><%= panel.panel_letter %> / <%= panel.panel_model.name %></h4>
+          </div>
+          <div class="modal-body text-center">
+            <div class="panel-images">
+              <div class="deflectors">
+              <div id="<%= panel.id %>_carousel" class="carousel slide">
+
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                <% count = 0 %>
+                <% panel.parts.each_with_index do |part, i| %>
+                  <% if part.part_type.name.include? 'Deflector' or part.part_type.name.include? 'Surface' %>
+
+                    <% if count == 0 %>
+                      <li data-target="#<%= panel.id %>_carousel" data-slide-to="0" class="active"></li>
+                    <% else %>
+                      <li data-target="#<%= panel.id %>_carousel" data-slide-to="<%= count %>"></li>
+                    <% end %>
+
+                    <% count += 1 %>
+
+                  <% end %>
+
+                <% end %>
+                </ol>
+
+                <div class="carousel-inner">
+                <% count = 0 %>
+                <% panel.parts.each_with_index do |part, i| %>
+                  <% if part.part_type.name.include? 'Deflector' or part.part_type.name.include? 'Surface' %>
+
+                    <!-- Wrapper for slides -->
+                    <% if count == 0 %>
+                      <div class="item active">
+                     <% else %>
+                      <div class="item">
+                    <% end %>
+
+                        <%= part.svg.html_safe %>
+
+                        <div class="carousel-caption">
+                          <p><%= part.part_type.name %></p>
+                        </div>
+
+                      </div> <!-- item -->
+                    <% count += 1 %>
+                  <% end %>
+                <% end %>
+                </div> <!-- carousel-inner -->
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#<%= panel.id %>_carousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#<%= panel.id %>_carousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+              </div>
+
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  <% end %>
+  </td>
+
+  <td class="hidden-sm hidden-xs">
+    <%= panel.panel_model.name %>
+  </td>
+
+  <td class="text-center"><%= get_inches(panel.width) %> &times; <%= get_inches(panel.height) %></td>
+
+  <% if panel.door_width != nil %>
+    <td class="text-center hidden-xs hidden-sm"><%= get_inches(panel.door_width) %> / <%= get_inches(panel.door_height) %> / <%= get_inches(panel.door_inset_left) %></td>
+  <% else %>
+    <td class="text-center hidden-xs hidden-sm">-</td>
+  <% end %>
+
+  <% if has_deflector == true %>
+  <td class="text-center hidden-sm hidden-xs text-success">
+    <span class="glyphicon glyphicon-ok"></span>
+  </td>
+  <% else %>
+  <td class="text-center hidden-sm hidden-xs text-danger">
+    <span class="glyphicon glyphicon-remove"></span>
+  </td>
+  <% end %>
+
+  <% if is_buried == true %>
+  <td class="text-center hidden-xs hidden-sm text-success">
+    <span class="glyphicon glyphicon-ok"></span>
+  </td>
+  <% else %>
+  <td class="text-center hidden-xs hidden-sm text-danger">
+    <span class="glyphicon glyphicon-remove"></span>
+  </td>
+  <% end %>
+
+  <%
+  structure_has_manufacturing_jobs = false
+  @structure.parts.each do |part|
+    if part.manufacturing_jobs.present?
+      structure_has_manufacturing_jobs = true
+    end
+  end
+  %>
+
+  <td class="text-center">
+  <% if structure_has_manufacturing_jobs == true %>
+    <%#= render 'panels/panel_progress', panel: panel %>
+    <div class="progress-radial progress-<%=panel.percentage%>"></div>
+  <% else %>
+    <span class="text-muted">No Mfg Jobs</span>
+  <% end %>
+  </td>
+
+  <% if panel.is_assembled == true %>
+    <% assembly_link = link_to("Is Assembled", structure_panel_path(@structure,panel, "panel[is_assembled]" => false), :method => :put, :class => 'btn btn-success btn-block btn-xs') %>
+  <% else %>
+    <% assembly_link = link_to("Not Assembled", structure_panel_path(@structure,panel, "panel[is_assembled]" => true), :method => :put, :class => 'btn btn-danger btn-block btn-xs') %>
+  <% end %>
+  <td class="text-center hidden-xs ">
+  <% if manufactured == true %>
+    <%= assembly_link %>
+  <% else %>
+    <a href="" class="disabled btn btn-block btn-default btn-xs">Not Manufactured</a>
+  <% end %>
+  </td>
+
+
+  <% if !@panels_show %>
+    <% if structure_has_manufacturing_jobs != true %>
+      <td class="text-right">
+      <% if @current_role == 'admin' %>
+        <%= link_to edit_structure_panel_path(@structure,panel), :class => 'btn btn-default btn-xs' do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+        <% end %>
+      <% end %>
+      </td>
+    <% else %>
+      <td></td>
+    <% end %>
+  <% end %>
+
+</tr>

@@ -1,0 +1,10 @@
+
+<% if @nest_runs_show || @nest_runs_new || @nest_runs_index%>
+  <%= link_to phase_manufacturing_job_path(@phase,@manufacturing_job), :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-arrow-left"></span> Back to Mfg Job "<%= @manufacturing_job.name %>"
+  <% end %>
+<% elsif @nest_runs_edit %>
+  <%= link_to manufacturing_job_nest_run_path(@manufacturing_job, @nest_run), :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-arrow-left"></span> Back to Nest Run <%= @nest_run.name %>
+  <% end %>
+<% end %>

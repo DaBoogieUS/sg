@@ -1,0 +1,26 @@
+<p>
+  <strong>Version:</strong>
+  <%= part_type.version %>
+</p>
+
+<p>
+  <strong>Material:</strong>
+  <%= link_to part_type.material.name, material_path(part_type.material) %>
+</p>
+
+<p>
+  <strong>Nestable:</strong>
+  <%= part_type.nestable %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= part_type.description %>
+</p>
+
+<% if @part_type.part_type_image.presence %>
+<p>
+  <strong>Image:</strong><br>
+  <%= image_tag part_type.part_type_image.url(:large) %>
+</p>
+<% end %>

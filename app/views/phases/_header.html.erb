@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h2>
+    <% if @phases_show %>
+      <%= @job.name %> / Phase <%= @phase.name %>
+      <% if @current_role == 'admin' %>
+        <%= link_to edit_job_phase_path(@job,@phase), :class => 'btn btn-default btn-xs' do %>
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        <% end %>
+      <% end %>
+    <% elsif @phases_new %>
+      New Phase
+    <% elsif @phases_edit %>
+      Editing Phase <%= @phase.name %>
+    <% elsif @phases_index %>
+      <%= @job.name %> <small>Phases</small>
+    <% end %>
+  </h2>
+</div>

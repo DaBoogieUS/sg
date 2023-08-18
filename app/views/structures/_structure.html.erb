@@ -1,0 +1,37 @@
+<% if structure.name %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      <div class="row">
+        <div class="col-xs-8">
+          <h4>
+            <div class="progress-radial progress-<%=structure.percentage%>"></div>
+            <%= link_to 'Structure '+structure.name, phase_structure_path(@phase,structure) %>
+          </h4>
+        </div>
+        <div class="col-xs-4 text-right">
+          <a data-toggle="collapse" data-parent="#structures" href="#structure_<%= structure.id %>" class="reveal collapsed btn btn-xs btn-default">
+            <span class="show-text">More <span class="glyphicon glyphicon-chevron-down"></span></span><span class="hide-text">Less <span class="glyphicon glyphicon-chevron-up"></span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="structure_<%= structure.id %>" class="panel-collapse collapse">
+    <div class="panel-body">
+      <%#= render 'structures/structure_progress', structure: structure %>
+      <% ordered_panels = structure.panels.order('side_position ASC') %>
+      <h5>Panels:</h5>
+      <ul class="list-unstyled">
+      <% ordered_panels.each do |panel| %>
+        <% if panel.side_position %>
+          <% panel_name = panel_letter(panel) + ' ' + panel.panel_model.name + ' (' + get_inches(panel.width) + ' &times; ' + get_inches(panel.height) + ')' %>
+          <li><%= link_to panel_name.html_safe, structure_panel_path(structure,panel), :class => "" %></li>
+        <% end %>
+      <% end %>
+      </ul>
+      <p><small>Modified <%= full_time(structure.updated_at) %></small></p>
+    </div>
+  </div>
+</div>
+<% end %>

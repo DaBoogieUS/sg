@@ -1,0 +1,2 @@
+module ManufacturingJobsHelper
+end

@@ -1,0 +1,48 @@
+<%= simple_form_for @material, :html => {:class => "validate"} do |f| %>
+  <%= f.error_notification %>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th><%= f.label :name %></th>
+        <th><%= f.label :material_type %></th>
+        <th><%= f.label :cut_spacing, 'Cut Spacing' %></th>
+        <th class="show-area"><%= f.label :width, 'Width (inches)' %></th>
+        <th class="show-area"><%= f.label :height, 'Height (inches)' %></th>
+        <th class="show-length"><%= f.label :length_options, 'Length(s) (inches)' %></th>
+        <th class="show-count"><%= f.label :count %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <% size_options = (48..144).step(4).to_a %>
+      <% cut_spacing_options = [[get_inches(0.125),0.125], [get_inches(0.25),0.25], [get_inches(0.375),0.375], [get_inches(0.5),0.5],[get_inches(0.625),0.625], [get_inches(0.75),0.75], [get_inches(0.875),0.875], [get_inches(1),1]] %>
+      <% if !@materials_edit %>
+        <td><%= f.text_field :name, :required => true, :class => 'form-control' %></td>
+        <td id="material-type-container"><%= select :material, :material_type, { "Length" => "length", "Area" => "area", "Count" => "count"}, {}, :class => 'form-control' %></td>
+      <% else %>
+        <td><%= @material.name %></td>
+        <td id="material-type-container"><%= @material.material_type %></td>
+      <% end %>
+        <td><%= f.select :cut_spacing, options_for_select(cut_spacing_options, @material.cut_spacing), {}, :class => 'form-control' %></td>
+        <td class="show-area"><%= f.select :width, options_for_select(size_options, @material.width.to_i), {}, :class => 'form-control' %></td>
+        <td class="show-area"><%= f.select :height, options_for_select(size_options, @material.height.to_i ), {}, :class => 'form-control' %></td>
+        <td class="show-length">
+        <div class="btn-group">
+          <%= f.select :length_options, size_options, {}, {:multiple => true, :data => {type: 'Lengths'}, :class => 'form-control multiselect-select'} %>
+        </div>
+        </td>
+        <td class="show-count"><%= f.text_field :count, :type => "number", :class => 'form-control' %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="form-group text-right">
+    <%= f.submit "Submit", :data => {'loading-text' => 'Submitting...'}, :class => 'btn btn-success' %>
+    <% if @materials_edit %>
+      <%= f.hidden_field :name %>
+      <%= f.hidden_field :material_type %>
+    <% end %>
+  </div>
+
+<% end %>

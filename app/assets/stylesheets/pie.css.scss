@@ -1,0 +1,105 @@
+/* -------------------------------------
+ * Bar container
+ * ------------------------------------- */
+.progress-radial {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  -webkit-box-shadow: 0px 0px 0px 2px rgba(255,255,255,0.1);
+  -moz-box-shadow: 0px 0px 0px 2px rgba(255,255,255,0.1);
+  box-shadow: 0px 0px 0px 2px rgba(255,255,255,0.1);
+  &.big {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+
+/* -------------------------------------
+ * Mixin for progress-% class
+ * ------------------------------------- */
+.progress-0 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(90deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-5 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(108deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-10 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(126deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-15 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(144deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-20 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(162deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-25 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(180deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-30 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(198deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-35 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(216deg, #d9534f 50%, #ddd 50%, #ddd);
+}
+
+.progress-40 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(234deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-45 {
+  background-image: linear-gradient(90deg, #ddd 50%, transparent 50%, transparent), linear-gradient(252deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-50 {
+  background-image: linear-gradient(-90deg, #f0ad4e 50%, transparent 50%, transparent), linear-gradient(270deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-55 {
+  background-image: linear-gradient(-72deg, #f0ad4e 50%, transparent 50%, transparent), linear-gradient(270deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-60 {
+  background-image: linear-gradient(-54deg, #f0ad4e 50%, transparent 50%, transparent), linear-gradient(270deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-65 {
+  background-image: linear-gradient(-36deg, #f0ad4e 50%, transparent 50%, transparent), linear-gradient(270deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-70 {
+  background-image: linear-gradient(-18deg, #f0ad4e 50%, transparent 50%, transparent), linear-gradient(270deg, #f0ad4e 50%, #ddd 50%, #ddd);
+}
+
+.progress-75 {
+  background-image: linear-gradient(0deg, #5bc0de 50%, transparent 50%, transparent), linear-gradient(270deg, #5bc0de 50%, #ddd 50%, #ddd);
+}
+
+.progress-80 {
+  background-image: linear-gradient(18deg, #5bc0de 50%, transparent 50%, transparent), linear-gradient(270deg, #5bc0de 50%, #ddd 50%, #ddd);
+}
+
+.progress-85 {
+  background-image: linear-gradient(36deg, #5bc0de 50%, transparent 50%, transparent), linear-gradient(270deg, #5bc0de 50%, #ddd 50%, #ddd);
+}
+
+.progress-90 {
+  background-image: linear-gradient(54deg, #5bc0de 50%, transparent 50%, transparent), linear-gradient(270deg, #5bc0de 50%, #ddd 50%, #ddd);
+}
+
+.progress-95 {
+  background-image: linear-gradient(72deg, #5bc0de 50%, transparent 50%, transparent), linear-gradient(270deg, #5bc0de 50%, #ddd 50%, #ddd);
+}
+
+.progress-100 {
+  background-image: linear-gradient(90deg, #5cb85c 50%, transparent 50%, transparent), linear-gradient(270deg, #5cb85c 50%, #ddd 50%, #ddd);
+}

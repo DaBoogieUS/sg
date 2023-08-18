@@ -1,0 +1,44 @@
+<h3>Panel Images</h3>
+<% ordered_panels = @structure.panels.order('side_position ASC') %>
+<div class="row">
+  <div class="col-sm-3">
+    <ul class="nav nav-stacked nav-pills">
+    <% ordered_panels.each_with_index do |panel, index| %>
+      <% if panel.side_position %>
+
+        <% if index == 0 %>
+          <li class="active"><a href="#panel_<%= panel.id %>_images" data-toggle="pill">Panel <%= panel_letter(panel) %></a></li>
+        <% else %>
+          <li><a href="#panel_<%= panel.id %>_images" data-toggle="pill">Panel <%= panel_letter(panel) %></a></li>
+        <% end %>
+      <% end %>
+
+    <% end %>
+    </ul>
+  </div>
+  <div class="col-sm-9">
+    <div class="tab-content">
+    <% ordered_panels.each_with_index do |panel, index| %>
+      <% if panel.side_position %>
+
+        <% if index == 0 %>
+        <div class="tab-pane fade in active" id="panel_<%= panel.id %>_images">
+        <% else %>
+        <div class="tab-pane fade" id="panel_<%= panel.id %>_images">
+        <% end %>
+          <div class="panel-images">
+            <% ordered_parts = panel.parts.order('width + height ASC') %>
+            <% ordered_parts.each do |part| %>
+              <% if part.material.material_type == 'area' %>
+                <div class="part-image">
+                  <%= part.svg.html_safe %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+</div>

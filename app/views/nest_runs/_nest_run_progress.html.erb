@@ -1,0 +1,21 @@
+<%
+percentage = nest_run.progress
+
+if percentage < 33 then progress_class = 'progress-bar-danger'
+elsif percentage < 66 then progress_class = 'progress-bar-warning'
+elsif percentage < 100 then progress_class = 'progress-bar-primary'
+else progress_class = 'progress-bar-success'
+end
+
+%>
+<div class="progress active progress-striped">
+  <div class="progress-bar <%= progress_class %>" role="progressbar" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percentage %>%;">
+    <% if percentage < 100 %>
+      <span class="progress-status"><%= percentage %>%</span>
+
+    <% else %>
+      <span class="progress-status">Complete</span>
+    <% end %>
+      <span class="sr-only"><%= percentage %>%</span>
+    </div>
+</div>

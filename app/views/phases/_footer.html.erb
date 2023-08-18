@@ -1,0 +1,19 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @phases_show || @phases_new %>
+      <%= link_to client_job_path(@client,@job), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to <%= @job.name %>
+      <% end %>
+    <% elsif @phases_edit %>
+      <%= link_to job_phase_path(@job, @phase), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Phase <%= @phase.name %>
+      <% end %>
+    <% elsif @phases_index %>
+      <%= link_to new_job_phase_path(@job), :class => 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-plus"></span> New Phase
+      <% end %>
+    <% end %>
+  </div>
+</div>
+</footer>

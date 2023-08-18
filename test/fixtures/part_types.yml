@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  material_id: 1
+  name: MyString
+  description: MyText
+  image: MyString
+  version: 1
+  nestable: false
+
+two:
+  material_id: 1
+  name: MyString
+  description: MyText
+  image: MyString
+  version: 1
+  nestable: false

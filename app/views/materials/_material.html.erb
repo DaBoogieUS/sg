@@ -1,0 +1,33 @@
+<% type = material.material_type %>
+<p>
+  <strong>Type:</strong>
+  <%= type %>
+</p>
+<p>
+  <strong>Cut Spacing:</strong>
+  <%= get_inches(material.cut_spacing) %>
+</p>
+
+<% if type == 'area' %>
+<p>
+  <strong>Width:</strong>
+  <%= get_measurements(material.width) %>
+</p>
+<p>
+  <strong>Height:</strong>
+  <%= get_measurements(material.height) %>
+</p>
+<% elsif type == 'length' %>
+<p>
+  <% lengths = pluralize(material.length_options.length, "Length") %>
+  <strong><%= lengths %>:</strong>
+  <% material.length_options.to_a.each_with_index do |lo, index| %>
+    <% if index > 0 %>, <%end%><%= get_measurements(lo.to_i) %>
+  <%end%>
+</p>
+<% elsif type == 'count' %>
+<p>
+  <strong>Count:</strong>
+  <%= material.count %>
+</p>
+<% end %>

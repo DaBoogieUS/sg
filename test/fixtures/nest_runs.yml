@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  manufacturing_job_id: 1
+  material_id: 1
+
+two:
+  manufacturing_job_id: 1
+  material_id: 1

@@ -1,0 +1,2 @@
+module NestObjectsHelper
+end

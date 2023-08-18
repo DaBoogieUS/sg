@@ -1,0 +1,29 @@
+<h4>Nest Objects</h4>
+
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Nest</th>
+      <th>X</th>
+      <th>Y</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @nest_objects.each do |nest_object| %>
+      <tr>
+        <td><%= nest_object.part_id %></td>
+        <td><%= nest_object.nest_id %></td>
+        <td><%= nest_object.x %></td>
+        <td><%= nest_object.y %></td>
+        <td class="text-right"><%= link_to 'Show', nest_object, :class => "btn btn-xs btn-default" %> <%= link_to 'Edit', edit_nest_object_path(nest_object), :class => "btn btn-xs btn-primary" %> <%= link_to 'Remove', nest_object, method: :delete, :class => "btn btn-xs btn-danger", data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Nest object', new_nest_object_path, :class => 'btn btn-primary' %>

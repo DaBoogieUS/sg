@@ -1,0 +1,14 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th class="text-center hidden-xs">Material</th>
+      <th class="text-center">Size / Count</th>
+      <th class="text-center hidden-xs">MFG Nests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% ordered_parts = panel.parts.order('part_type_id ASC') %>
+    <%= render ordered_parts %>
+  </tbody>
+</table>

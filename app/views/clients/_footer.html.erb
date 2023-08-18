@@ -1,0 +1,32 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @clients_show || @clients_edit || @clients_new %>
+      <%= link_to clients_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Clients
+      <% end %>
+    <% elsif @clients_index %>
+      <% if @clients.length > 0 %>
+
+        <% if @current_role == 'admin' %>
+
+          <%= link_to new_client_path, :class => 'btn btn-primary' do %>
+            <span class="glyphicon glyphicon-plus"></span> New Client
+          <% end %>
+
+        <% end %>
+
+      <% else %>
+
+        <% if @current_role == 'admin' %>
+          <h3>Nothing Yet. <%= link_to "Add a Client", new_client_path %> to get started.</h3>
+        <% else %>
+          <h3>Nothing Yet.</h3>
+        <% end %>
+
+      <% end %>
+
+    <% end %>
+  </div>
+</div>
+</footer>

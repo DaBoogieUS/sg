@@ -1,0 +1,17 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @panel_models_show || @panel_models_edit || @panel_models_new %>
+      <%= link_to panel_models_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Panel Models
+      <% end %>
+    <%# elsif @panel_models_index %>
+      <%# if @current_role == 'admin' %>
+        <%#= link_to new_panel_model_path, :class => 'btn btn-primary' do %>
+          <!-- <span class="glyphicon glyphicon-plus"></span> New Panel Model -->
+        <%# end %>
+      <%# end %>
+    <% end %>
+  </div>
+</div>
+</footer>

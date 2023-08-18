@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h2>
+    <% if @panel_models_show %>
+      <%= @panel_model.name %>
+      <% if @current_role == 'admin' %>
+        <%= link_to edit_panel_model_path(@panel_model), :class => 'btn btn-default btn-xs' do %>
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        <% end %>
+      <% end %>
+    <% elsif @panel_models_new %>
+      New Panel Model
+    <% elsif @panel_models_edit %>
+      Editing <%= @panel_model.name %>
+    <% elsif @panel_models_index %>
+      Panel Models
+    <% end %>
+  </h2>
+</div>

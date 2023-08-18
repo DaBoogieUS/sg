@@ -1,0 +1,17 @@
+<%= render 'header' %>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>Part Type</th>
+      <th class="text-center">Material</th>
+      <th class="text-center">Length</th>
+      <th class="text-center">Width</th>
+      <th class="text-center">Height</th>
+      <th class="text-center">Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @panel.parts %>
+  </tbody>
+</table>
+<%= render 'footer' %>

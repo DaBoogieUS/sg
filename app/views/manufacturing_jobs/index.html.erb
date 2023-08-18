@@ -1,0 +1,27 @@
+<h4>Manufacturing Jobs</h4>
+
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Name</th>
+      <th>Date</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @manufacturing_jobs.each do |manufacturing_job| %>
+      <tr>
+        <td><%= manufacturing_job.phase_id %></td>
+        <td><%= manufacturing_job.name %></td>
+        <td><%= manufacturing_job.date %></td>
+        <td class="text-right"><%= link_to 'Show', manufacturing_job, :class => "btn btn-xs btn-default" %> <%= link_to 'Edit', edit_manufacturing_job_path(manufacturing_job), :class => "btn btn-xs btn-primary" %> <%= link_to 'Remove', manufacturing_job, method: :delete, :class => "btn btn-xs btn-danger", data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Manufacturing job', new_manufacturing_job_path, :class => 'btn btn-primary' %>

@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Structures</th>
+          <th>Manufacture</th>
+          <th>Install</th>
+          <th>Progress</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @phases.each do |phase| %>
+        <tr>
+          <td><%= link_to('Phase '+phase.name, job_phase_path(@job,phase), :class => "btn btn-primary btn-block btn-xs") %></td>
+          <td>
+            <%= phase.structures.length %>
+          </td>
+          <% if phase.manufacture_start.presence && phase.manufacture_end.presence %>
+          <td><%= phase.manufacture_start.to_formatted_s(:short) %> - <%= phase.manufacture_end.to_formatted_s(:short) %></td>
+          <% else %>
+          <td>-</td>
+          <% end %>
+          <% if phase.install_start.presence && phase.install_end.presence %>
+          <td><%= phase.install_start.to_formatted_s(:short) %> - <%= phase.install_end.to_formatted_s(:short) %></td>
+          <% else %>
+          <td>-</td>
+          <% end %>
+          <% @phase = phase %>
+          <td><%= render 'phases/phase_progress' %></td>
+          <td class="text-right">
+            <%= link_to edit_job_phase_path(@job, phase), :class => 'btn btn-default btn-xs' do %>
+              <span class="glyphicon glyphicon-pencil"></span>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

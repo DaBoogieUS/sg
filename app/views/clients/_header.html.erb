@@ -1,0 +1,33 @@
+<% if @clients_show || @clients_index %>
+<div class="row">
+  <div class="col-md-12 logo-top">
+    <a href="<%= root_url %>"><img src="<%= root_url %>logo-dark.png" /></a>
+  </div>
+</div>
+<% end %>
+<div class="page-header">
+  <h1>
+    <% if @clients_show %>
+      <%- title "#{@client.name}" %>
+      <%= @client.name %>
+      <% if @current_role == 'admin' %>
+        <%= link_to edit_client_path(@client), :class => 'btn btn-default btn-xs' do %>
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        <% end %>
+      <% end %>
+    <% elsif @clients_new %>
+      <%- title "New Client" %>
+      New Client
+    <% elsif @clients_edit %>
+      <%- title "#{@client.name}" %>
+      Editing <%= @client.name %>
+    <% elsif @clients_index %>
+      <%- title "Clients" %>
+      Clients
+    <% end %>
+  <% if @clients_show  && @client.contact %>
+  <br>
+  <small><%= @client.contact %></small>
+  <% end %>
+  </h1>
+</div>

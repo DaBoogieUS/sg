@@ -1,0 +1,60 @@
+<% if @clients.count > 0 %>
+  <div id="clients" class="panel-group">
+    <% @clients.each do |client| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <div class="row">
+            <div class="col-xs-8">
+              <h4>
+                <%= link_to client.name, client_path(client) %>
+                <small><%= client.contact %></small>
+              </h4>
+            </div>
+            <div class="col-xs-4 text-right">
+              <a data-toggle="collapse" data-parent="#clients" href="#client<%= client.id %>" class="reveal collapsed btn btn-xs btn-default">
+                <span class="show-text">More <span class="glyphicon glyphicon-chevron-down"></span></span><span class="hide-text">Less <span class="glyphicon glyphicon-chevron-up"></span></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="client<%= client.id %>" class="panel-collapse collapse">
+        <div class="panel-body">
+          <div class="row">
+            <% client_jobs = client.jobs %>
+            <% client_jobs.each_with_index do |job, i| %>
+              <div class="col-sm-6">
+                <div class="block">
+                  <div class="block-header">
+                    <h3><%= link_to job.name, client_job_path(client,job) %></h3>
+                  </div>
+                  <% job_phases = job.phases.order('created_at DESC') %>
+                  <% job_phases.each do |phase| %>
+                    <h4>
+                      <span class="progress-radial progress-<%=phase.percentage%>"></span>
+                      <%= link_to "Phase " + phase.name, job_phase_path(job,phase) %> <small> <%= pluralize(phase.structures.count, "Structure") %></small>
+                    </h4>
+                  <% end %>
+                </div>
+              </div>
+              <% if (i+1) % 2 == 0 %>
+            </div>
+            <div class="row">
+              <% end %>
+            <% end %>
+            </div>
+          </div>
+        </div>
+    </div>
+    <% end %>
+  </div>
+<% else %>
+
+  <% if @current_role == 'admin' %>
+    <h3>Nothing Yet. <%= link_to "Add a Client", new_client_path() %> to get started.</h3>
+  <% else %>
+    <h3>Nothing Yet.</h3>
+  <% end %>
+
+<% end %>

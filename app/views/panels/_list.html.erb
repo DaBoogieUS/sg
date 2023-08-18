@@ -1,0 +1,50 @@
+<% if @structure.panels.length >= 4 %>
+  <% if @structure.panels.where(:side_position => 1).first.width != @structure.panels.where(:side_position => 3).first.width || @structure.panels.where(:side_position => 2).first.width != @structure.panels.where(:side_position => 4).first.width %>
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="alert alert-danger alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <p><strong>Warning:</strong> 2 opposite panels do not have the same width.</p>
+          </div>
+        </div>
+      </div>
+  <% end %>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped">
+      <thead>
+        <%= render 'panels/table_header' %>
+      </thead>
+
+      <tbody id="panels">
+        <% ordered_panels = @structure.panels.order('side_position ASC') %>
+        <%= render ordered_panels %>
+      </tbody>
+    </table>
+
+    <%
+    structure_has_manufacturing_jobs = false
+    @structure.parts.each do |part|
+      if part.manufacturing_jobs.present?
+        structure_has_manufacturing_jobs = true
+      end
+    end
+    %>
+
+    <% if @current_role == 'admin' && structure_has_manufacturing_jobs == false %>
+      <% number = 4 %>
+      <% if @structure.panels.length < number %>
+        <div id="inline_panel_form inline_form">
+      <% else %>
+        <div class="form-group text-right">
+          <button data-form="inline-panel-form" class="show_inline_form btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Panel</button>
+        </div>
+        <div id="inline-panel-form" class="inline_form hidden_inline_form">
+      <% end %>
+        <%= render 'panels/inline_panel_form' %>
+      </div>
+    <% end %>
+  </div>
+</div>

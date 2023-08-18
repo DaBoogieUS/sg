@@ -1,0 +1,53 @@
+<%= simple_form_for([@structure,@new_panel], remote: true) do |f| %>
+  <%= f.error_notification %>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Pos.</th>
+        <th>Panel Model</th>
+        <th class="text-center">Width</th>
+        <th class="text-center">Height</th>
+        <th class="text-center">Deflector</th>
+        <th class="text-center">Buried</th>
+        <th class="text-center door-width">Door W</th>
+        <th class="text-center door-height">Door H</th>
+        <th class="text-center door-inset">Door Inset</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <% panel_count = Panel.where(structure_id: @structure.id).length %>
+        <% letters = ('A'..'Z').to_a %>
+        <% only_options = [] %>
+        <% i = -1 %>
+        <% while i < panel_count do %>
+          <% only_options.push([letters[i+1],i+2]) %>
+          <% i += 1 %>
+        <% end %>
+        <% only_options.sort! { |x,y| y <=> x } %>
+        <% width_options = (12..96).to_a %>
+        <td><%= f.select(:side_position, only_options, {}, :class => 'form-control') %></td>
+        <td id="panel-model"><%= f.collection_select :panel_model_id, PanelModel.all, :id, :name, {}, {:class => 'form-control'} %></td>
+        <td><%= f.select(:width, width_options, {}, :class => 'form-control') %></td>
+        <td><%= f.select :height, { "48" => 48, "40" => 40}, {}, :class => 'form-control' %></td>
+        <td class="text-center"><%= f.check_box :deflector, :checked => 'checked', :class => "checkbox checkbox-inline" %></td>
+        <td class="text-center"><%= f.check_box :buried, :class => "checkbox checkbox-inline" %></td>
+
+        <td class="door-width"><%= f.text_field :door_width, :type => "number", :value => 0, :class => 'form-control' %></td>
+        <td class="door-height"><%= f.text_field :door_height, :type => "number", :value => 0, :class => 'form-control' %></td>
+        <td class="door-inset"><%= f.text_field :door_inset_left, :type => "number", :value => 0, :class => 'form-control' %></td>
+        <td>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <%= f.hidden_field :structure_id, :value => @structure.id %>
+  <%= f.hidden_field :is_manufactured, :value => false %>
+  <%= f.check_box :is_assembled, :checked => false, :style => 'display:none' %>
+
+  <div class="form-group text-right">
+    <%= f.button :submit, :class => 'btn btn-sm btn-success' %>
+  </div>
+
+<% end %>

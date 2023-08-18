@@ -1,0 +1,214 @@
+<% if @structure.panels.length == 4 %>
+<button class="btn btn-xs hidden-xs btn-primary" data-toggle="modal" data-target="#structure-model">
+  <span class="glyphicon glyphicon-expand"></span> View Interactive Model
+</button>
+<%
+  # set scale
+  scale = 6
+
+  # getting widths
+  biggest_width = 0
+  smallest_width = 0
+  @structure.panels.each do |panel|
+    if panel.width >= biggest_width
+      biggest_width = panel.width
+    else
+      smallest_width = panel.width
+    end
+  end
+
+  if biggest_width < 72
+    scale = 8
+  end
+
+  # height value
+  height = @structure.panels.first.height * scale
+
+  biggest_width *= scale
+  smallest_width *= scale
+
+  dimension_w = 0
+  dimension_l = 0
+
+  def_h = 11 * scale
+  def_c = 7.7 * scale
+  def_off = height - def_h
+%>
+
+<div id="structure-model" class="fade in">
+
+  <input checked class='model-radio' id='rotate-1' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-2' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-3' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-4' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-5' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-6' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-7' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-8' name='rotation' type='radio'>
+  <input class='model-radio' id='rotate-9' name='rotation' type='radio'>
+
+  <div
+      class='model-container'
+      style="
+        height: <%= height %>px;
+        width: <%= biggest_width %>px;
+
+        -webkit-perspective: <%= biggest_width * 5 %>;
+        -moz-perspective: <%= biggest_width * 5 %>;
+        perspective: <%= biggest_width * 5 %>;
+        ">
+    <div class='model-structure'>
+
+      <% @structure.panels.order('side_position ASC').each_with_index do |panel, i| %>
+          <% panel_width = panel.width * scale %>
+          <% z = "#{(panel.width * scale) / 2 + 1}px" %>
+          <% case i
+            when 0
+              class_text = "p-l p-front"
+              y = "0deg"
+              dimension_w = panel_width
+            when 1
+              class_text = "p-w p-left"
+              y = "-90deg"
+              dimension_l = panel_width
+            when 2
+              class_text = "p-l p-back"
+              y = "180deg"
+            when 3
+              class_text = "p-w p-right"
+              y = "90deg"
+          end
+          if panel_width == biggest_width
+            left = 0
+          else
+            left = (biggest_width - panel_width) / 2
+          end
+          %>
+          <figure
+              class="model-panel <%= class_text %>"
+              style="
+                height: <%= height %>px;
+                left: <%= left %>px;
+                width: <%= panel_width %>px;
+                -webkit-transform: rotateY(<%= y %>) translateZ(<%= z %>);
+                -moz-transform: rotateY(<%= y %>) translateZ(<%= z %>);
+                transform: rotateY(<%= y %>) translateZ(<%= z %>);
+                ">
+            <div class='model-surface'>
+              <div class="panel-info">
+                <h1><%= panel.panel_letter %>: <%= panel.panel_model.name %></h1>
+                <p><%= get_inches(panel.width) %> &times; <%= get_inches(panel.height) %></p>
+                <% if panel.door_width > 0 %>
+                  <h1>Door</h1>
+                  <p>
+                    W: <%= get_inches(panel.door_width) %>
+                    / H: <%= get_inches(panel.door_height) %>
+                    / I: <%= get_inches(panel.door_inset_left) %></p>
+                <% end %>
+              </div>
+              <% if panel.door_width > 0 %>
+                <span
+                  class="door"
+                  style="
+                    width: <%= panel.door_width * scale %>px;
+                    height: <%= panel.door_height * scale %>px;
+                    right: <%= panel.door_inset_left * scale %>px;
+                "></span>
+              <% end %>
+              <% if panel.panel_model.name == "Removable Door v1" %>
+                <span class="half"></span>
+              <% end %>
+              <% if panel.buried == true %>
+                <span
+                  class="buried"
+                  style="
+                    bottom: <%= -1.5 * scale %>px;
+                "></span>
+              <% end %>
+            </div>
+            <% if panel.deflector == true %>
+              <div
+                class='model-corner-l'
+                style="
+                  bottom: <%= def_off %>px;
+                  border-bottom-width: <%= def_h %>px;
+                  border-left: solid transparent <%= def_c %>px;
+              "></div>
+              <div
+                class='model-deflector'
+                style="bottom: <%= def_off %>px;
+              ">
+                <% if panel.door_width > 0 %>
+                  <span
+                    class="door"
+                    style="
+                      width: <%= panel.door_width * scale %>px;
+                      height: <%= def_h %>px;
+                      right: <%= panel.door_inset_left * scale %>px;
+                  "></span>
+                <% end %>
+                <% if panel.panel_model.name == "Removable Door v1" %>
+                  <span class="half"></span>
+                <% end %>
+              </div>
+              <div
+                class='model-corner-r'
+                style="
+                  bottom: <%= def_off %>px;
+                  border-bottom-width: <%= def_h %>px;
+                  border-right: solid transparent <%= def_c %>px;
+              "></div>
+            <% end %>
+          </figure>
+        <% end %>
+        <% if dimension_l > dimension_w %>
+          <% left = (biggest_width - dimension_w) / 2 %>
+         <% else %>
+           <% left = 0 %>
+        <% end %>
+          <figure class="model-panel p-c p-top"
+              style="
+                top: <%= (height - dimension_l) / 2 %>px;
+                left: <%= left %>px;
+
+                -webkit-transform: rotateX(90deg) translateZ(<%= height/2 %>px);
+                transform: rotateX(90deg) translateZ(<%= height/2 %>px);
+
+                width: <%= dimension_w %>px;
+                height: <%= dimension_l %>px;
+              ">
+            <span class="pos-t">C</span>
+            <span class="pos-r">D</span>
+            <span class="pos-b">A</span>
+            <span class="pos-l">B</span>
+          </figure>
+
+          <figure class="model-panel p-c p-bottom buried"
+              style="
+                top: <%= (height - dimension_l) / 2 %>px;
+                left: <%= left %>px;
+
+                -webkit-transform: rotateX(-90deg) translateZ(<%= height/2 %>px);
+                transform: rotateX(-90deg) translateZ(<%= height/2 %>px);
+
+                width: <%= dimension_w %>px;
+                height: <%= dimension_l %>px;
+              ">
+          </figure>
+        </div>
+    </div>
+    <div class='model-labels'>
+      <label for='rotate-1' id='for-rotate-1' class="btn btn-primary">A</label>
+      <label for='rotate-4' id='for-rotate-4' class="btn btn-primary">B</label>
+      <label for='rotate-3' id='for-rotate-3' class="btn btn-primary">C</label>
+      <label for='rotate-2' id='for-rotate-2' class="btn btn-primary">D</label>
+      <label for='rotate-5' id='for-rotate-5' class="btn btn-primary">Top</label>
+      <label for='rotate-6' id='for-rotate-6' class="btn btn-default">AB</label>
+      <label for='rotate-7' id='for-rotate-7' class="btn btn-default">BC</label>
+      <label for='rotate-8' id='for-rotate-8' class="btn btn-default">CD</label>
+      <label for='rotate-9' id='for-rotate-9' class="btn btn-default">DA</label>
+      <label data-dismiss="modal" class="model-close btn btn-danger" aria-hidden="true">Exit</label>
+    </div>
+  </div>
+</div>
+<% end %>

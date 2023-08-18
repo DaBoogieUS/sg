@@ -1,0 +1,17 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @part_types_show || @part_types_edit || @part_types_new %>
+      <%= link_to part_types_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Part Types
+      <% end %>
+    <%# elsif @part_types_index %>
+      <%# if @current_role == 'admin' %>
+        <%#= link_to new_part_type_path, :class => 'btn btn-primary' do %>
+          <!-- <span class="glyphicon glyphicon-plus"></span> New Part Type -->
+        <%# end %>
+      <%# end %>
+    <% end %>
+  </div>
+</div>
+</footer>

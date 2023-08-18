@@ -1,0 +1,23 @@
+<h3>Structures</h3>
+<div id="structures_wrap">
+  <% ordered_structures = @phase.structures.sort_by(&:name_number) %>
+
+  <% if ordered_structures.length > 1 %>
+  <div id="structures" class="panel-group">
+    <%= render ordered_structures %>
+  </div>
+  <% else %>
+  <div class="block">
+    <span class="text-muted"><em>No Structures</em></span>
+  </div>
+  <% end %>
+
+  <% if @current_role == 'admin' %>
+  <div class="form-group text-right">
+    <button data-form="inline-structure-form" class="show_inline_form btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Structure</button>
+  </div>
+  <div id="inline-structure-form" class="inline_form hidden_inline_form">
+    <%= render 'structures/inline_structure_form', :structure => @phase.structures.new %>
+  </div>
+  <% end %>
+</div>

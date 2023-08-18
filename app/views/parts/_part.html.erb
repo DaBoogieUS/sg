@@ -1,0 +1,54 @@
+<tr>
+  <td>
+    <span class="popover-item" data-placement="auto" data-trigger="hover" data-html="true" data-title="<%= part.part_type.name %>">
+      <div class="popover-content">
+        <p><%= part.part_type.description %></p>
+      </div>
+      <%= part.part_type.name %>
+    </span>
+  <% if part.part_type.part_type_image.presence && part.material.material_type =='area' %>
+    <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#<%= part.id %>">
+      <span class="glyphicon glyphicon-picture"></span>
+    </button>
+    <div class="modal fade" id="<%= part.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= part.id %>_title" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="<%= part.id %>_title"><%= part.panel.structure.name %><%= part.panel.panel_letter %> / <%= part.part_type.name %></h4>
+          </div>
+          <div class="modal-body text-center">
+            <%= part.svg.html_safe %>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  <% end %>
+  </td>
+
+  <td class="text-center hidden-xs"><%= part.part_type.material.name %></td>
+  <% if part.length != nil %>
+    <td class="text-center"><%= get_inches(part.length) %></td>
+  <% elsif part.width != nil %>
+    <td class="text-center"><%= get_inches(part.width) %> &times; <%= get_inches(part.height) %></td>
+  <% elsif part.count != nil %>
+    <td class="text-center"><%= part.count %></td>
+  <% else %>
+    <td class="text-center">-</td>
+  <% end %>
+  <td class="text-center hidden-xs">
+  <% if part.nest_objects.length > 0 %>
+    <% part.nest_objects.each_with_index do |nest_object,index| %>
+      <% nest = nest_object.nest %>
+      <% nest_run = nest.nest_run %>
+      <% if nest.is_manufactured == true %>
+        <%= link_to nest_run.manufacturing_job.name + ' #' + nest.number_index, nest_run_nest_path(nest_run,nest), class: 'btn btn-success btn-xs' %>
+      <% else %>
+        <%= link_to nest_run.manufacturing_job.name + ' #' + nest.number_index, nest_run_nest_path(nest_run,nest), class: 'btn btn-danger btn-xs' %>
+      <% end %>
+    <% end %>
+  <% else %>
+      <span class="label label-default">Not Queued</span>
+  <% end %>
+  </td>
+</tr>

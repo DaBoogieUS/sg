@@ -1,0 +1,15 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @structures_show || @structures_new || @structures_index%>
+      <%= link_to job_phase_path(@job,@phase), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Phase <%= @phase.name %>
+      <% end %>
+    <% elsif @structures_edit %>
+      <%= link_to phase_structure_path(@phase, @structure), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Structure <%= @structure.name %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+</footer>

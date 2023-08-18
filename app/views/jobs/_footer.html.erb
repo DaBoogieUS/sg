@@ -1,0 +1,19 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @jobs_show || @jobs_new %>
+      <%= link_to client_path(@client), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to <%= @client.name %>
+      <% end %>
+    <% elsif @jobs_edit %>
+      <%= link_to client_job_path(@client,@job), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to <%= @job.name %>
+      <% end %>
+    <% elsif @jobs_index %>
+      <%= link_to new_client_job_path(@client), :class => 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-plus"></span> New Job
+      <% end %>
+    <% end %>
+  </div>
+</div>
+</footer>

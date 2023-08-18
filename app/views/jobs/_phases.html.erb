@@ -1,0 +1,60 @@
+<% if @job.phases.length > 0 %>
+
+<div class="row">
+<% job_phases = @job.phases.order('created_at DESC') %>
+<% job_phases.each_with_index do |phase, i| %>
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          <span class="progress-radial progress-<%=phase.percentage%>"></span>
+          <%= link_to('Phase '+phase.name, job_phase_path(@job, phase), :class => "") %>
+          <small><%= pluralize(phase.structures.length, "Structure") %></small>
+          <% if @current_role == 'admin' %>
+            <%= link_to edit_job_phase_path(@job, phase), :class => 'btn btn-default btn-xs' do %>
+              <span class="glyphicon glyphicon-pencil"></span> Edit
+            <% end %>
+          <% end %>
+        </h3>
+
+      </div>
+      <div class="panel-body">
+        <h4>Manufacturing</h4>
+        <% if phase.manufacture_start %>
+        <p><%= phase.manufacture_start.to_formatted_s(:short) %> - <%= phase.manufacture_end.to_formatted_s(:short) %></p>
+        <% else %>
+        <p class="text-muted"><em>No manufacturing dates set</em></p>
+        <% end %>
+        <h4>Installation</h4>
+        <% if phase.install_start %>
+        <p><%= phase.install_start.to_formatted_s(:short) %> - <%= phase.install_end.to_formatted_s(:short) %></p>
+        <% else %>
+        <p class="text-muted"><em>No installation dates set</em></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% if (i+1) % 2 == 0 %>
+</div>
+<div class="row">
+  <% end %>
+<% end %>
+</div>
+
+<% if @current_role == 'admin' %>
+<div class="row">
+  <div class="col-xs-12">
+  <%= link_to new_job_phase_path(@job), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span> Add Phase
+  <% end %>
+  </div>
+</div>
+<% end %>
+
+<% else %>
+  <% if @current_role == 'admin' %>
+  <h3>Nothing Yet. <%= link_to "Add a Phase", new_job_phase_path(@job) %> to get started.</h3>
+  <% else %>
+  <h3>Nothing Yet.</h3>
+  <% end %>
+<% end %>

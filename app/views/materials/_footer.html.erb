@@ -1,0 +1,17 @@
+<footer class="footer">
+<div class="row">
+  <div class="col-xs-12">
+    <% if @materials_show || @materials_edit || @materials_new %>
+      <%= link_to materials_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to Materials
+      <% end %>
+    <%# elsif @materials_index %>
+      <%# if @current_role == 'admin' %>
+        <%#= link_to new_material_path, :class => 'btn btn-primary' do %>
+          <!-- <span class="glyphicon glyphicon-plus"></span> New Material -->
+        <%# end %>
+      <%# end %>
+    <% end %>
+  </div>
+</div>
+</footer>

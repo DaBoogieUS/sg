@@ -1,0 +1,29 @@
+<%
+if notice_success
+  notice_content = notice_success
+  notice_class = "alert-success"
+elsif notice_info
+  notice_content = notice_info
+  notice_class = "alert-info"
+elsif notice_warning
+  notice_content = notice_warning
+  notice_class = "alert-warning"
+elsif notice_danger
+  notice_content = notice_danger
+  notice_class = "alert-danger"
+elsif notice
+  notice_content = notice
+  notice_class = "alert-info"
+end
+%>
+
+<% if notice_content %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="alert <%= notice_class %> alert-dismissable fade in">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p><%= notice_content %></p>
+      </div>
+    </div>
+  </div>
+<% end %>

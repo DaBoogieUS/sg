@@ -1,0 +1,134 @@
+<%# ordered_nest_runs = @manufacturing_job.nest_runs.sort_by{|nr| - nr.nests.count } %>
+<% ordered_nest_runs = @manufacturing_job.nest_runs.sort_by{|nr| nr.material.id } %>
+<% ordered_nest_runs.each_with_index do |nest_run, index| %>
+
+
+  <% material = nest_run.material %>
+
+  <div class="panel panel-default">
+
+  <% if material.material_type == 'length' %>
+    <div class="panel-heading">
+
+      <h3>
+        <span class="progress-radial progress-<%=nest_run.percentage%>"></span>
+        <%= link_to nest_run.nest_material_name, manufacturing_job_nest_run_path(@manufacturing_job,nest_run) %>
+        <!--<br> <small><%= nest_run.progress %>% / <%= nest_run.nests.length %> Nests / Total Waste: <%= get_feet(nest_run.waste_in_inches) %> (or <%= nest_run.waste_in_material_quantity %> lengths of <%= get_feet(nest_run.material.length_options.first.to_i) %> <%= nest_run.material.name %>)</small> -->
+        <small>
+          <%= pluralize(nest_run.nests.length, 'Length') %>
+          <br>
+          Total Waste: <%= get_feet(nest_run.waste_in_inches) %> (or <%= nest_run.waste_in_material_quantity %> lengths of <%= get_feet(nest_run.material.length_options.first.to_i) %> <%= nest_run.material.name %>)
+        </small>
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+      <% nest_run.nests.each_with_index do |nest, index| %>
+
+      <% if nest.is_manufactured == true %>
+        <% manufacture_status = "<span class=\"circle success\"></span>".html_safe %>
+      <% else %>
+        <% manufacture_status = "<span class=\"circle danger\"></span>".html_safe %>
+      <% end %>
+
+      <div class="col-md-3">
+
+        <div class="thumbnail">
+          <div class="thumbnail-title">
+            <h4><%= manufacture_status %> <%= link_to 'Length '+ nest.number_index, nest_run_nest_path(nest_run,nest) %> (<%= get_feet(nest.length) %>)</h4>
+          </div>
+
+          <div class="nest">
+            <%= nest.map_svg.html_safe %>
+          </div>
+
+          <div class="caption text-right">
+            <h4><small><%= get_feet(nest.waste_in_inches) %> of waste</small></h4>
+          </div>
+
+        </div>
+
+      </div> <!-- end col -->
+      <% if (index + 1) % 4 == 0 %>
+        </div> <!-- end row -->
+        <div class="row">
+      <% end %>
+      <% end %>
+    </div> <!-- end row -->
+  </div> <!-- panel body -->
+
+  <% else %>
+
+    <div class="panel-heading">
+      <h3>
+        <span class="progress-radial progress-<%=nest_run.percentage%>"></span>
+        <%= link_to nest_run.nest_material_name, manufacturing_job_nest_run_path(@manufacturing_job,nest_run) %>
+        <!-- <br><small><%= nest_run.progress %>% / <%= nest_run.nests.length %> Nests / Total Waste: <%= get_square_feet(nest_run.waste_in_inches) %> (or <%= nest_run.waste_in_material_quantity %> sheets of <%= nest_run.material.name %>)</small> -->
+        <small>
+          <%= pluralize(nest_run.nests.length, 'Sheet') %>
+          <br>
+          Total Waste: <%= get_square_feet(nest_run.waste_in_inches) %> (or <%= nest_run.waste_in_material_quantity %> sheets of <%= nest_run.material.name %>)
+        </small>
+      </h3>
+    </div>
+
+    <div class="panel-body">
+      <div class="row">
+      <% nest_run.nests.each_with_index do |nest, index| %>
+
+
+        <% if nest.is_manufactured == true %>
+          <% manufacture_status = "<span class=\"circle success\"></span>".html_safe %>
+        <% else %>
+          <% manufacture_status = "<span class=\"circle danger\"></span>".html_safe %>
+        <% end %>
+
+        <div class="col-md-3">
+          <div class="thumbnail">
+
+            <div class="thumbnail-title">
+              <h4><%= manufacture_status %> <%= link_to 'Sheet '+ nest.number_index, nest_run_nest_path(nest_run,nest) %></h4>
+            </div>
+
+            <div class="nest">
+              <%= nest.map_svg.html_safe %>
+            </div>
+
+            <div class="caption text-right">
+              <h4><small><%= get_square_feet(nest.waste_in_inches) %> of waste</small>
+
+              <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#<%= nest.id %>">
+                Part File <span class="glyphicon glyphicon-zoom-in"></span>
+              </button>
+
+              <div class="modal fade" id="<%= nest.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= nest.id %>_title" aria-hidden="true">
+                <div class="modal-dialog big-modal">
+                  <div class="modal-content">
+                    <div class="modal-header text-left">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title" id="<%= nest.id %>_title">Nest <%= nest.number_index %> / Part File</h4>
+                      <a class="btn btn-xs btn-primary" href="<%= nest_run_nest_path(nest_run, nest) %>.svg" download="<%= nest_run_nest_path(nest_run, nest) %>.svg" title="<%= nest_run.manufacturing_job.name %>_<%= nest_run.material.name %>_<%= nest.number_index %>">Download SVG <span class="glyphicon glyphicon-download"></span></a>
+                    </div>
+                    <div class="modal-body text-center">
+                      <%= nest.svg.html_safe %>
+                    </div>
+                  </div>
+                </div>
+               </div>
+            </div>
+
+          </div>
+
+        </div> <!-- end col -->
+        <% if (index + 1) % 4 == 0 %>
+          </div> <!-- end row -->
+          <div class="row">
+        <% end %>
+      <% end %>
+    </div> <!-- end row -->
+
+  </div> <!-- panel body -->
+
+  <% end %>
+  </div> <!-- panel -->
+<% end %>

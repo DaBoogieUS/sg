@@ -1,0 +1,65 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+<% if @phase %>
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="<%= job_phase_path(@job,@phase) %>"><%= @job.name %> / Phase <%= @phase.name %></a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <% if @phase.panels.length > 0 %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Structures <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <% ordered_structures = @phase.structures.sort_by(&:name_number) %>
+          <%# ordered_structures = @phase.structures.order('name ASC') %>
+          <% ordered_structures.each do |structure| %>
+            <% if structure.id.to_f > 0 %>
+              <li><a href="<%= phase_structure_path(@phase,structure) %>">Structure <%= structure.name %></a></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </li>
+      <% else %>
+        <li class="dropdown disabled">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Structures</a>
+        </li>
+      <% end %>
+      <%# if @phase.manufacturing_jobs.length > 0 %>
+      <% ordered_mfg_jobs = @phase.manufacturing_jobs.order('created_at DESC') %>
+      <% if ordered_mfg_jobs.length > 0 %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manufacturing Jobs <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <% ordered_mfg_jobs.each_with_index do |mfg_job, index| %>
+              <% if mfg_job.id.to_f > 0 %>
+                <li><%= link_to mfg_job.name, phase_manufacturing_job_path(@phase,mfg_job) %></li>
+              <% end %>
+            <% end %>
+        </ul>
+      </li>
+      <% else %>
+        <li class="dropdown disabled">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manufacturing Jobs</a>
+        </li>
+      <% end %>
+      <%# end %>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
+      <li class="navbar-progress-bar">
+        <!-- wtf -->
+        <span class="label" style="position: absolute; width: 100px; left: -100px;">Phase Progress:</span>
+        <%= render 'phases/phase_progress' %>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+<% end %>
+</nav>

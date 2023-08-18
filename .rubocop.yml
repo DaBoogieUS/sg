@@ -1,0 +1,81 @@
+Rails:
+  Enabled: true
+AllCops:
+  TargetRubyVersion: 2.1
+  Include:
+    - Rakefile
+  Exclude:
+    - 'config/routes.rb'
+    - 'yard/**/*'
+    - '.yardoc/**/*'
+    - 'vendor/**/*'
+
+ParameterLists:
+  Max: 5
+  CountKeywordArgs: false
+
+LineLength:
+  Max: 99
+
+# ruby 2.0 does not require this
+Encoding:
+    Enabled: false
+
+RegexpLiteral:
+    Enabled: false
+
+Documentation:
+  Description: 'Document classes and non-namespace modules.'
+  Enabled: false
+
+SignalException:
+  Description: 'Checks for proper usage of fail and raise.'
+  Enabled: false
+
+MultilineOperationIndentation:
+  Enabled: false
+
+MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 35
+
+LineLength:
+  Max: 99
+
+RedundantSelf:
+  Description: 'using ActiveType causes this to error'
+  Enabled: false
+
+
+ClassLength:
+  Description: 'Avoid classes longer than 100 lines of code.'
+  Enabled: false
+
+Style/SpaceBeforeFirstArg:
+  Description: >-
+                 Checks that exactly one space is used between a method name
+                 and the first argument for method calls without parentheses.
+  Enabled: false
+
+NumericLiterals:
+  Enabled: false
+
+Metrics/AbcSize:
+  Description: >-
+                 A calculated magnitude based on number of assignments,
+                 branches, and conditions.
+  Enabled: true
+  Max: 25
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  SupportedStyles:
+    - nested
+    - compact
+  Enabled: false
+
+EachWithObject:
+  Enabled: false
+
+ClassAndModuleChildren:
+  Enabled: false

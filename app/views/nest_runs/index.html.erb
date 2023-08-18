@@ -1,0 +1,25 @@
+<h4>Nest Runs</h4>
+
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Manufacturing job</th>
+      <th>Material</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @nest_runs.each do |nest_run| %>
+      <tr>
+        <td><%= nest_run.manufacturing_job_id %></td>
+        <td><%= nest_run.material_id %></td>
+        <td class="text-right"><%= link_to 'Show', nest_run, :class => "btn btn-xs btn-default" %> <%= link_to 'Edit', edit_nest_run_path(nest_run), :class => "btn btn-xs btn-primary" %> <%= link_to 'Remove', nest_run, method: :delete, :class => "btn btn-xs btn-danger", data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Nest run', new_nest_run_path, :class => 'btn btn-primary' %>

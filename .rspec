@@ -1,0 +1,5 @@
+--color
+--require spec_helper
+# https://github.com/sporkrb/spork/issues/166#issuecomment-3480895
+--tag focus
+--format documentation

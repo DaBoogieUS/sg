@@ -1,0 +1,46 @@
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="text-center">Type</th>
+      <th class="text-center">Cut Spacing</th>
+      <th class="text-center">Size / Count</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @materials.each do |material| %>
+      <tr>
+        <td><%= link_to material.name, material_path(material) %></td>
+        <% this_type = material.material_type %>
+        <td class="text-center"><%= this_type %></td>
+        <% if material.cut_spacing.presence %>
+        <td class="text-center"><%= get_inches(material.cut_spacing) %></td>
+        <% else %>
+        <td class="text-center">-</td>
+        <% end %>
+        <% if this_type == 'area' %>
+          <td class="text-center"><%= get_inches(material.width) %> &times; <%= get_inches(material.height) %></td>
+        <% elsif this_type == 'length' %>
+          <td class="text-center">
+            <% material.length_options.to_a.each_with_index do |lo, index| %>
+              <% if index > 0 %>, <%end%><%= get_inches(lo.to_i) %>
+            <% end %>
+          </td>
+        <% elsif this_type == 'count' %>
+          <td class="text-center"><%= material.count %></td>
+        <% else %>
+          <td class="text-center">-</td>
+        <% end %>
+        <td class="text-right">
+        <% if @current_role == 'admin' %>
+          <%= link_to edit_material_path(material), :class => 'btn btn-default btn-xs' do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

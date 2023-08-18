@@ -1,0 +1,107 @@
+<% if @structure.panels.length == 4 %>
+<button class="btn btn-xs hidden-xs hidden-sm hidden-md btn-primary" data-toggle="modal" data-target="#<%= @structure.id %>">
+  <span class="glyphicon glyphicon-expand"></span> View Interactive Model
+</button>
+<div class="modal fade" id="<%= @structure.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= @structure.id %>_title" aria-hidden="true">
+  <div class="modal-dialog big-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="<%= @structure.id %>_title">Structure <%= @structure.name %></h4>
+      </div>
+      <div class="modal-body text-center">
+      <% scale = 8 %>
+      <% height = @structure.panels.first.height * scale %>
+      <% biggest_width = 0 %>
+      <% smallest_width = 0 %>
+
+      <% @structure.panels.each do |panel| %>
+        <% if panel.width >= biggest_width %>
+          <% biggest_width = panel.width %>
+        <% else %>
+          <% smallest_width = panel.width %>
+        <% end %>
+      <% end %>
+
+      <% biggest_width *= scale %>
+      <% smallest_width *= scale %>
+      <% dimension_w = 0 %>
+      <% dimension_l = 0 %>
+
+      <section id="model_container" style="height: <%= height %>px; width: <%= biggest_width %>px; -webkit-perspective: <%= biggest_width * 5 %>; perspective: <%= biggest_width * 5 %>;">
+        <div id="structure_model" class="show-front">
+        <% @structure.panels.each_with_index do |panel, i| %>
+          <% panel_width = panel.width * scale %>
+          <% case i
+            when 0
+              class_text = "front"
+              y = "0deg"
+              z = ((@structure.panels.where(:side_position => 4).first.width * scale) / 2).to_s + "px"
+              dimension_w = panel_width
+            when 1
+              class_text = "left"
+              y = "-90deg"
+              z = ((@structure.panels.where(:side_position => 3).first.width * scale) / 2).to_s + "px"
+              dimension_l = panel_width
+            when 2
+              class_text = "back"
+              y = "180deg"
+              z = ((@structure.panels.where(:side_position => 2).first.width * scale) / 2).to_s + "px"
+            when 3
+              class_text = "right"
+              y = "90deg"
+              z = ((@structure.panels.where(:side_position => 1).first.width * scale) / 2).to_s + "px"
+          end
+          if panel_width == biggest_width
+            left = 0
+          else
+            left = (biggest_width - panel_width) / 2
+          end
+          %>
+          <figure class="<%= class_text %>" style="height: <%= height %>px; left: <%= left %>px; width: <%= panel_width %>px; -webkit-transform: rotateY(<%= y %>) translateZ(<%= z %>); -webkit-perspective-origin: 50% 0%;">
+            <%= panel.panel_letter %><br><%= get_inches(panel.width) %> &times; <%= get_inches(panel.height) %>
+            <% if panel.deflector == true %>
+              <div class="deflector" style="width:<%= panel_width %>px; height: <%= 11 * scale %>px"></div>
+            <% end %>
+          </figure>
+        <% end %>
+        <% if dimension_l > dimension_w %>
+          <% left = (biggest_width - dimension_w) / 2 %>
+         <% else %>
+           <% left = 0 %>
+        <% end %>
+          <figure class="top" style="left: <%= left %>px; -webkit-transform: rotateX(90deg) translateZ(<%= dimension_l / 2%>px); width: <%= dimension_w %>px; height: <%= dimension_l %>px;">
+            <span class="pos-t">C</span>
+            <span class="pos-r">D</span>
+            <span class="pos-b">A</span>
+            <span class="pos-l">B</span>
+          </figure>
+          <figure class="bottom" style="left: <%= left %>px; -webkit-transform: rotateX(-90deg) translateZ(<%= height - (dimension_l / 2) %>px); width: <%= dimension_w %>px; height: <%= dimension_l %>px;">
+            <span class="pos-t">A</span>
+            <span class="pos-r">D</span>
+            <span class="pos-b">C</span>
+            <span class="pos-l">B</span>
+          </figure>
+        </div>
+      </section>
+
+      <section id="options">
+
+        <p id="show-buttons">
+          <button class="btn btn-primary" title="show-front">Panel A</button>
+          <button class="btn btn-primary" title="show-left">Panel B</button>
+          <button class="btn btn-primary" title="show-back">Panel C</button>
+          <button class="btn btn-primary" title="show-right">Panel D</button>
+          <button class="btn btn-primary" title="show-top">Above</button>
+          <button class="btn btn-primary" title="show-bottom">Below</button>
+        </p>
+
+      </section>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<% end %>

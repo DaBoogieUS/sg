@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      <div class="row">
+        <div class="col-xs-8">
+          <h4>
+            <div class="progress-radial progress-<%= manufacturing_job.percentage %>"></div>
+            <%= link_to 'Mfg Job ' + manufacturing_job.name, phase_manufacturing_job_path(@phase,manufacturing_job) %>
+          </h4>
+        </div>
+        <div class="col-xs-4 text-right">
+          <a data-toggle="collapse" data-parent="#manufacturing_jobs" href="#mfg_job_<%= manufacturing_job.id %>" class="reveal collapsed btn btn-xs btn-default">
+            <span class="show-text">More <span class="glyphicon glyphicon-chevron-down"></span></span><span class="hide-text">Less <span class="glyphicon glyphicon-chevron-up"></span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mfg_job_<%= manufacturing_job.id %>" class="panel-collapse collapse">
+    <div class="panel-body">
+      <%#= render 'manufacturing_jobs/manufacturing_job_progress', manufacturing_job: manufacturing_job %>
+      <h5>Runs:</h5>
+      <ul class="list-unstyled">
+      <% manufacturing_job.nest_runs.each do |nest_run| %>
+        <li><%= link_to nest_run.material.name, manufacturing_job_nest_run_path(manufacturing_job,nest_run), :class => "" %></li>
+      <% end %>
+      </ul>
+      <h5>Structures:</h5>
+      <p>
+      <% structures = Structure.where(:phase_id => @phase.id) %>
+      <% structures = structures.sort_by(&:name_number) %>
+      <% structures.each do |structure| %>
+        <% if structure.manufacturing_jobs.include?(manufacturing_job.id) %>
+          <%= link_to structure.name, phase_structure_path(@phase,structure), :class => 'btn btn-primary btn-sm' %>
+        <% end %>
+      <% end %>
+      </p>
+      <p><small><%= manufacturing_job.parts.length %> Parts / Created <%= full_time(manufacturing_job.created_at) %></small></p>
+    </div>
+  </div>
+</div>

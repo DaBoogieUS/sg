@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-12 logo-top">
+    <img src="<%= root_url %>logo.png" />
+  </div>
+</div>
+
+<%= form_tag sessions_path do %>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 form-group">
+      <%= label_tag :username %><br>
+      <%= text_field_tag :username, params[:username], {:class => 'input-lg form-control', :autocapitalize => 'off', :autocorrect => 'off'} %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 form-group">
+      <%= label_tag :password %><br>
+      <%= password_field_tag :password, params[:password], {:class => 'input-lg form-control'} %>
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 form-group">
+      <%= submit_tag "Log in", :data => {'loading-text' => 'Logging In...'}, :class => 'btn btn-block btn-lg btn-success' %>
+    </div>
+  </div>
+<% end %>

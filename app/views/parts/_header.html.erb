@@ -1,0 +1,14 @@
+
+
+<div class="page-header">
+  <h2>
+    <% if @parts_show %>
+      <%= part.part_type.name %>
+      <%= link_to edit_panel_part_path(@panel,@part), :class => 'btn btn-default btn-xs' do %>
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      <% end %>
+    <% elsif @parts_index %>
+      Panel <%= panel_letter(@panel) %> <small>Parts</small>
+    <% end %>
+  </h2>
+</div>

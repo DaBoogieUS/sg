@@ -1,0 +1,20 @@
+
+
+<div class="page-header">
+  <h2>
+    <% if @manufacturing_jobs_show %>
+      <span class="progress-radial big progress-<%=@manufacturing_job.percentage%>"></span> <%= @manufacturing_job.mfg_job_name %>
+      <% if @current_role == 'admin' %>
+      <%= link_to edit_phase_manufacturing_job_path(@phase,@manufacturing_job), :class => 'btn btn-default btn-xs' do %>
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      <% end %>
+      <% end %>
+    <% elsif @manufacturing_jobs_new %>
+      New Mfg Job
+    <% elsif @manufacturing_jobs_edit %>
+      Editing <%= @manufacturing_job.mfg_job_name %>
+    <% elsif @manufacturing_jobs_index %>
+      Phase <%= @phase.name %> <small>Mfg Jobs</small>
+    <% end %>
+  </h2>
+</div>

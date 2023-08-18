@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  structure_id: 1
+  panel_model_id: 1
+  is_manufactured: false
+  is_assembled: false
+  side_position: 1
+  width: 1
+  height: 1
+  deflector: false
+  buried: false
+  door_width: 1
+  door_height: 1
+  door_inset_left: 1
+
+two:
+  structure_id: 1
+  panel_model_id: 1
+  is_manufactured: false
+  is_assembled: false
+  side_position: 1
+  width: 1
+  height: 1
+  deflector: false
+  buried: false
+  door_width: 1
+  door_height: 1
+  door_inset_left: 1

@@ -1,0 +1,282 @@
+$border: 1px dotted #666;
+$buried_s: 10px;
+
+@mixin backface($visibility: hidden) {
+  -webkit-backface-visibility: $visibility;
+  backface-visibility: $visibility;
+}
+
+@mixin bringout($x: 10px) {
+  -webkit-transform: translateZ($x);
+  -moz-transform: translateZ($x);
+  transform: translateZ($x);
+}
+
+@mixin rotateY($deg) {
+  -webkit-transform: rotateY($deg);
+  -moz-transform: rotateY($deg);
+  transform: rotateY($deg);
+}
+
+@mixin rotate_perspective($x,$y,$scale) {
+  -webkit-transform: rotateY($y) rotateX($x) scale($scale) scaleZ($scale);
+  -moz-transform: rotateY($y) rotateX($x) scale($scale) scaleZ($scale);
+  transform: rotateY($y) rotateX($x) scale($scale) scaleZ($scale);
+}
+
+@mixin transform($transform) {
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  transform: $transform;
+}
+
+#structure-model {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 9999;
+  display: none;
+  &.open {
+    display: block;
+  }
+
+}
+
+.model-container {
+  position: absolute;
+  left: 50%; top: 50%;
+
+  @include transform(translateX(-50%) translateY(-50%));
+}
+
+.model-radio {
+  display: none;
+}
+
+#rotate-1:checked ~ .model-container .model-structure {
+  @include rotateY(-360deg);
+}
+#rotate-2:checked ~ .model-container .model-structure {
+  @include rotateY(-90deg);
+}
+#rotate-3:checked ~ .model-container .model-structure {
+  @include rotateY(-180deg);
+}
+#rotate-4:checked ~ .model-container .model-structure {
+  @include rotateY(-270deg);
+}
+#rotate-5:checked ~ .model-container .model-structure {
+  @include transform(rotateY(0deg) rotateX(-90deg) scale(0.7) scaleZ(0.7));
+}
+#rotate-6:checked ~ .model-container .model-structure {
+  @include rotate_perspective(-10deg, 45deg, 0.7);
+}
+#rotate-7:checked ~ .model-container .model-structure {
+  @include rotate_perspective(10deg, 135deg, 0.7);
+}
+#rotate-8:checked ~ .model-container .model-structure {
+  @include rotate_perspective(10deg, 225deg, 0.7);
+}
+#rotate-9:checked ~ .model-container .model-structure {
+  @include rotate_perspective(-10deg, 315deg, 0.7);
+}
+
+.model-structure {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  -webkit-transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 1s;
+  -webkit-transition-property: -webkit-transform, transform;
+
+  -moz-transition-timing-function: ease-in-out;
+  -moz-transition-duration: 1s;
+  -moz-transition-property: -moz-transform, transform;
+
+  transition-timing-function: ease-in-out;
+  transition-duration: 1s;
+  transition-property: -webkit-transform, -moz-transform, transform;
+
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+
+
+
+  .model-panel {
+    display: block;
+    position: absolute;
+
+    @include backface();
+
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+
+
+    .model-surface {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      -webkit-transform: translateZ(0px);
+      transform: translateZ(0px);
+      @include backface();
+
+
+
+      .panel-info {
+        color: #f0f0f0;
+        text-align: left;
+        position: absolute;
+        left: 12px; right: 12px;
+        bottom: 12px;
+
+        text-shadow: 0px 0px 12px rgba(0,0,0,0.9);
+
+        h1 {
+          font-size: 14px;
+        }
+        p {
+          font-size: 12px;
+        }
+
+        @include bringout(20px);
+        @include backface();
+      }
+
+
+
+      .door {
+        position: absolute;
+        top: 0;
+        border: $border;
+
+        @include bringout(1px);
+        @include backface();
+      }
+
+
+
+      .half {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 50%;
+        width: 0;
+        border-left: $border;
+
+        @include bringout();
+        @include backface();
+      }
+
+
+      .buried {
+        position: absolute;
+        top: 100%; left: -1 * $buried_s; right: -1 * $buried_s;
+        background: #C9BD97;
+        @include transform(translateZ($buried_s));
+      }
+
+    }
+
+    .model-deflector {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+
+      -webkit-transform-origin: 50% 0%;
+      -moz-transform-origin: 50% 0%;
+      transform-origin: 50% 0%;
+
+      @include transform(rotateX(45deg) translateZ(1px));
+
+      background: black;
+
+      @include backface(visible);
+
+      .door {
+        position: absolute;
+        top: 0;
+        border-left: $border;
+        border-right: $border;
+
+        @include bringout();
+        @include backface();
+      }
+      .half {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 50%;
+        width: 0;
+        border-left: $border;
+
+        @include bringout();
+        @include backface();
+      }
+    }
+  }
+}
+
+
+.model-structure .p-l .model-surface {
+  background: #222222;
+}
+.model-structure .model-surface {
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.6);
+}
+.model-structure .p-w .model-surface {
+  background: #2f2f2f;
+}
+.model-structure .p-top {
+  box-shadow: inset 0px 0px 0px 24px rgba(40,40,40,0.9);
+  color: white;
+  font-weight: 500;
+
+  @include backface();
+}
+.model-structure .p-bottom {
+  box-shadow: 0px 0px 128px rgba(0, 0, 0, 0.6);
+}
+
+.model-structure .model-corner-l, .model-structure .model-corner-r {
+  position: absolute;
+  top: 0;
+
+  border-bottom: solid 58.66667px black;
+
+  -webkit-transform-origin: 50% 0%;
+  -moz-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+
+  @include transform(rotateX(45deg) translateZ(1px));
+}
+.model-structure .model-corner-l {
+  right: 100%;
+}
+.model-structure .model-corner-r {
+  left: 100%;
+}
+
+.model-labels {
+  position: absolute;
+  bottom: 8px;
+  left: 0; right: 0;
+  color: #999;
+  text-align: center;
+}
+
+.pos-t { position: absolute; width: 100%; top: 4px; left: 0; text-align: center;}
+.pos-r { position: absolute; top: 50%; margin-top: -24px; right: 4px;}
+.pos-b { position: absolute; width: 100%; bottom: 4px; left: 0; text-align: center;}
+.pos-l { position: absolute; top: 50%; margin-top: -24px; left: 4px;}

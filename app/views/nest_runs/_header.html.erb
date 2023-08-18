@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h2>
+    <span class="progress-radial big progress-<%=@nest_run.percentage%>"></span>
+    <%= @nest_run.nest_material_name %>
+    <small>/ <%= link_to @nest_run.manufacturing_job.mfg_job_name, phase_manufacturing_job_path(@phase,@manufacturing_job) %></small>
+    <br>
+  <small>
+  <% if @nest_run.material.material_type == "area" %>
+    <%= pluralize(@nest_run.nests.length, 'Sheet') %> / Total Waste: <%= get_square_feet(@nest_run.waste_in_inches) %> (or <%= @nest_run.waste_in_material_quantity %> sheets of <%= @nest_run.material.name %>)
+  <% else %>
+    <%= pluralize(@nest_run.nests.length, 'Length') %> / Total Waste: <%= get_feet(@nest_run.waste_in_inches) %> (or <%= @nest_run.waste_in_material_quantity %> lengths of <%= get_feet(@nest_run.material.length_options.first.to_i) %> <%= @nest_run.material.name %>)
+  <% end %>
+  </small>
+  </h2>
+</div>

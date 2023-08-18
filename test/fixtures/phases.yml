@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  job_id: 1
+  name: MyString
+  manufacture_start: 2013-11-07
+  manufacture_end: 2013-11-07
+  install_start: 2013-11-07
+  install_end: 2013-11-07
+
+two:
+  job_id: 1
+  name: MyString
+  manufacture_start: 2013-11-07
+  manufacture_end: 2013-11-07
+  install_start: 2013-11-07
+  install_end: 2013-11-07

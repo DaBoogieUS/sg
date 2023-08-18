@@ -1,0 +1,102 @@
+<%= simple_form_for [@structure, @panel] do |f| %>
+  <%= f.error_notification %>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Panel Model</th>
+        <th class="text-center">Pos.</th>
+        <th class="text-center">Width</th>
+        <th class="text-center">Height</th>
+        <th class="text-center door-width">Door W</th>
+        <th class="text-center door-height">Door H</th>
+        <th class="text-center door-inset">Door Inset L</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <% if @panel.id %>
+          <% panel_count = Panel.where(structure_id: @structure.id).length - 1 %>
+        <% else %>
+          <% panel_count = Panel.where(structure_id: @structure.id).length %>
+        <% end %>
+        <% letters = ('A'..'Z').to_a %>
+        <% only_options = [] %>
+        <% i = -1 %>
+        <% while i < panel_count do %>
+          <% only_options.push([letters[i+1],i+2]) %>
+          <% i += 1 %>
+        <% end %>
+        <% only_options.sort! { |x,y| y <=> x } %>
+
+        <td id="panel-model"><%= f.collection_select :panel_model_id, PanelModel.all, :id, :name, {}, { class: 'form-control' } %></td>
+        <td><%= f.select(:side_position, only_options, {}, class: 'form-control') %></td>
+
+        <% width_options = (2..192).to_a.map {|a| a / 2.0 } %>
+        <% height_options = (70..100).to_a.map {|a| a / 2.0 } %>
+        <% door_h_options = [0] + (2..100).to_a.map {|a| a / 2.0 } %>
+
+        <td id="panel-width"><%= f.select :width, options_for_select(width_options, @panel.width), {}, class: 'form-control' %></td>
+        <td><%= f.select :height, options_for_select(height_options, @panel.height), {}, class: 'form-control' %></td>
+
+        <% door_options = [0] + width_options %>
+        <td id="door-width" class="door-width"><%= f.select :door_width, options_for_select(door_options, @panel.door_width), {}, class: 'form-control' %></td>
+        <td id="door-height" class="door-height"><%= f.select :door_height, options_for_select(door_h_options, @panel.door_height), {}, class: 'form-control' %></td>
+        <td id="door-inset" class="door-inset"><%= f.select :door_inset_left, options_for_select(door_options, @panel.door_inset_left), {}, class: 'form-control' %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <%= f.hidden_field :structure_id, value: @structure.id %>
+
+  <div class="row form-group text-center">
+    <div class="col-xs-3">
+    <% if @panel.deflector == true %>
+      <%= f.label :deflector, data: { toggle: 'button' }, class: 'btn btn-block btn-primary active btn-sm checkbox-control' %>
+    <% else %>
+      <%= f.label :deflector, data: { toggle: 'button' }, class: 'btn btn-block btn-default btn-sm checkbox-control' %>
+    <% end %>
+      <%= f.check_box :deflector, class: "checkbox checkbox-inline" %>
+    </div>
+    <div class="col-xs-3">
+    <% if @panel.buried == true %>
+      <%= f.label :buried, data: { toggle: 'button' }, class: 'btn btn-block btn-primary active btn-sm checkbox-control' %>
+    <% else %>
+      <%= f.label :buried, data: { toggle: 'button' }, class: 'btn btn-block btn-default btn-sm checkbox-control' %>
+    <% end %>
+      <%= f.check_box :buried, class: "checkbox checkbox-inline" %>
+    </div>
+  </div>
+
+  <%= f.hidden_field :is_assembled %>
+  <%= f.hidden_field :is_manufactured %>
+
+
+  <div class="form-group text-right">
+    <% if @panels_edit %>
+      <%
+      structure_has_manufacturing_jobs = false
+      @structure.parts.each do |part|
+        if part.manufacturing_jobs.present? && structure_has_manufacturing_jobs == false
+          structure_has_manufacturing_jobs = true
+        end
+      end
+      %>
+      <% if structure_has_manufacturing_jobs == true %>
+        <span class="btn btn-success disabled">Submit</span>
+        <span class="btn btn-danger disabled">Remove</span><br>
+        <small>
+          <em>This Panel's Structure has Parts in Manufacturing Jobs.</em>
+          <br>Remove the Manufacturing Jobs before you update or remove this Panel.
+        </small>
+      <% else %>
+        <%= f.button :submit, class: 'btn btn-success' %>
+        <% if @panel.side_position > 4 %>
+          <%= link_to 'Remove', structure_panel_path(@structure,@panel), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure you want to delete this panel?' } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <svg id="svg" xmlns="http://www.w3.</2000/svg" style="width: 600px; display: block; margin: 1rem auto;" height="50" width="100" viewBox="0 0 100 50"></svg>
+<% end %>

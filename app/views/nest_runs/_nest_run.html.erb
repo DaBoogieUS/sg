@@ -1,0 +1,78 @@
+<% material = @nest_run.material %>
+<% if material.material_type == 'length' %>
+
+  <div class="row">
+  <% @nest_run.nests.each_with_index do |nest, index| %>
+
+  <% if nest.is_manufactured == true %>
+    <% manufacture_link = link_to("Is Manufactured", nest_run_nest_path(@nest_run,nest, "nest[is_manufactured]" => false), :method => :put, :class => 'btn btn-success btn-xs') %>
+  <% else %>
+    <% manufacture_link = link_to("Not Manufactured", nest_run_nest_path(@nest_run,nest, "nest[is_manufactured]" => true), :method => :put, :class => 'btn btn-danger btn-xs') %>
+  <% end %>
+
+  <div class="col-md-6">
+
+    <div class="thumbnail">
+      <div class="thumbnail-title">
+        <h4><%= link_to 'Length '+ nest.number_index, nest_run_nest_path(@nest_run,nest) %> (<%= get_feet(nest.length) %>) <%= manufacture_link %></h4>
+      </div>
+
+      <div class="nest">
+        <%= nest.map_svg.html_safe %>
+      </div>
+
+      <div class="caption text-right">
+        <h4><small><%= get_feet(nest.waste_in_inches) %> of waste</small></h4>
+      </div>
+
+    </div>
+
+  </div> <!-- end col -->
+  <% if (index + 1) % 2 == 0 %>
+    </div> <!-- end row -->
+    <div class="row">
+  <% end %>
+  <% end %>
+</div> <!-- end row -->
+
+<% else %>
+
+  <div class="row">
+  <% @nest_run.nests.each_with_index do |nest, index| %>
+
+  <% if nest.is_manufactured == true %>
+    <% manufacture_link = link_to("Is Manufactured", nest_run_nest_path(@nest_run,nest, "nest[is_manufactured]" => false), :method => :put, :class => 'btn btn-success btn-xs') %>
+  <% else %>
+    <% manufacture_link = link_to("Not Manufactured", nest_run_nest_path(@nest_run,nest, "nest[is_manufactured]" => true), :method => :put, :class => 'btn btn-danger btn-xs') %>
+  <% end %>
+
+  <div class="col-md-6">
+
+    <div class="thumbnail">
+
+      <div class="thumbnail-title">
+        <h4><%= link_to 'Sheet '+ nest.number_index, nest_run_nest_path(@nest_run,nest) %> <%= manufacture_link %></h4>
+      </div>
+
+      <div class="nest">
+        <%= nest.map_svg.html_safe %>
+      </div>
+
+
+      <div class="caption text-right">
+        <ul class="list-inline"><small>
+        <h4><small><%= get_square_feet(nest.waste_in_inches) %> of waste</small>
+        <a class="btn btn-xs btn-primary" href="<%= nest_run_nest_path(@nest_run,nest) %>.svg" download="<%= nest_run_nest_path(@nest_run,nest) %>.svg" title="<%= @nest_run.manufacturing_job.name %>_<%= @nest_run.material.name %>_<%= nest.number_index %>">SVG <span class="glyphicon glyphicon-download"></span></a>
+        </h4>
+      </div>
+
+  </div>
+
+  </div> <!-- end col -->
+  <% if (index + 1) % 2 == 0 %>
+    </div> <!-- end row -->
+    <div class="row">
+  <% end %>
+  <% end %>
+</div> <!-- end row -->
+<% end %>

@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>v.</th>
+          <th class="hidden-xs">Material</th>
+          <th>Image</th>
+          <th class="hidden-md hidden-sm hidden-xs">Description</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @part_types.each do |part_type| %>
+          <tr>
+            <td><%= link_to part_type.name, part_type_path(part_type) %></td>
+            <td><%= part_type.version %></td>
+            <td><%= part_type.material.name %></td>
+            <% if part_type.part_type_image.presence %>
+              <td>
+                <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#<%= part_type.id %>">
+                  <span class="glyphicon glyphicon-picture"></span>
+                </button>
+                <div class="modal fade" id="<%= part_type.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= part_type.id %>_title" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="<%= part_type.id %>_title"><%= part_type.name %></h4>
+                      </div>
+                      <div class="modal-body text-center">
+                        <%= image_tag part_type.part_type_image.url(:large) %>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+              </td>
+            <% else %>
+              <td></td>
+            <% end %>
+            <td class="hidden-md hidden-sm hidden-xs"><span class="popover-item" data-placement="auto" data-trigger="hover" data-title="<%= part_type.name %>" data-content="<%= part_type.description %>"><%= truncate(part_type.description, length: 40) %></span></td>
+            <td class="text-right">
+            <% if @current_role == 'admin' %>
+              <%= link_to edit_part_type_path(part_type), :class => 'btn btn-default btn-xs' do %>
+                <span class="glyphicon glyphicon-pencil"></span>
+              <% end %>
+            <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

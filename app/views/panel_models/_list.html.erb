@@ -1,0 +1,49 @@
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Image</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @panel_models.each do |panel_model| %>
+      <tr>
+        <td><%= link_to panel_model.name, panel_model %></td>
+        <% if panel_model.panel_model_image.presence %>
+          <td>
+            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#<%= panel_model.id %>">
+              <span class="glyphicon glyphicon-picture"></span>
+            </button>
+            <div class="modal fade" id="<%= panel_model.id %>" tabindex="-1" role="dialog" aria-labelledby="<%= panel_model.id %>_title" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="<%= panel_model.id %>_title"><%= panel_model.name %></h4>
+                  </div>
+                  <div class="modal-body text-center">
+                    <%= image_tag panel_model.panel_model_image.url(:large) %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+          </td>
+        <% else %>
+          <td></td>
+        <% end %>
+        <td class="text-right">
+          <% if @current_role == 'admin' %>
+            <%= link_to edit_panel_model_path(panel_model), :class => 'btn btn-default btn-xs' do %>
+              <span class="glyphicon glyphicon-pencil"></span>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

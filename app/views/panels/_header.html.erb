@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h2>
+    <% if @panels_show %>
+      <%= link_to 'Structure ' + @panel.structure.name, phase_structure_path(@phase,@panel.structure) %> / Panel <%= panel_letter(@panel) %>
+      <%
+      panel_has_manufacturing_jobs = false
+      @structure.parts.each do |part|
+        if part.manufacturing_jobs.present?
+          panel_has_manufacturing_jobs = true
+        end
+      end
+      %>
+      <% if @current_role == 'admin' %>
+        <% if panel_has_manufacturing_jobs != true %>
+          <%= link_to edit_structure_panel_path(@structure,@panel), :class => 'btn btn-default btn-xs' do %>
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+          <% end %>
+        <% end %>
+      <% end %>
+    <% elsif @panels_new %>
+      New Panel
+    <% elsif @panels_edit %>
+      Editing Panel <%= panel_letter(@panel) %>
+    <% elsif @panels_index %>
+      Structure <%= @structure.name %> <small>Panels</small>
+    <% end %>
+  </h2>
+</div>

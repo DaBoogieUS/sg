@@ -1,0 +1,12 @@
+<p>
+  <strong>Name:</strong>
+  <%= @panel_model.name %>
+
+</p>
+
+<% if @panel_model.panel_model_image.presence %>
+<p>
+  <strong>Image:</strong><br>
+  <%= image_tag panel_model.panel_model_image.url(:large) %>
+</p>
+<% end %>

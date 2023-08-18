@@ -1,0 +1,29 @@
+<% if @jobs_show %>
+<div class="row">
+  <div class="col-md-12 logo-top">
+    <a href="<%= root_url %>"><img src="<%= root_url %>logo-dark.png" /></a>
+  </div>
+</div>
+<% end %>
+<div class="page-header">
+  <h1>
+    <% if @jobs_show %>
+      <%= @job.name %>
+      <% if @current_role == 'admin' %>
+        <%= link_to edit_client_job_path(@client,@job), :class => 'btn btn-default btn-xs' do %>
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        <% end %>
+      <% end %>
+    <% elsif @jobs_new %>
+      New Job
+    <% elsif @jobs_edit %>
+      Editing <%= @job.name %>
+    <% elsif @jobs_index %>
+      <%= @client.name %> <small>Jobs</small>
+    <% end %>
+  <% if @jobs_show && @job.location.length > 0 %>
+  <br>
+  <small><%= @job.location %></small>
+  <% end %>
+  </h1>
+</div>

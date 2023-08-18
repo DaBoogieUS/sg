@@ -1,0 +1,13 @@
+.block {
+  margin: 12px 0px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  .block-header {
+    h1,h2,h3,h4,h5 {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<div class="panel-images">
+  <div class="deflectors clearfix">
+  <% @panel.parts.each do |part| %>
+    <% if part.part_type.name.include? 'Deflector' %>
+      <div class="part-image deflector">
+        <%= part.svg.html_safe %>
+      </div>
+    <% end %>
+  <% end %>
+  </div>
+  <% @panel.parts.each do |part| %>
+    <% if part.part_type.name.include? 'Surface' %>
+      <div class="surface">
+        <div class="part-image surface">
+          <%= part.svg.html_safe %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
