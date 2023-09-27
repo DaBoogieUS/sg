@@ -1,0 +1,11 @@
+.sheet,
+.panel {
+	display: block;
+	margin-bottom: 12px;
+	max-width: 100%;
+}
+.sheet img,
+.panel img {
+	max-width: 50%;
+	height: auto;
+}

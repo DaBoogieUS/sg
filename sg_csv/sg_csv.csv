@@ -1,0 +1,9 @@
+Structure,Panel,Type,Width,Height,Deflector,Buried Base,Door Width,Door Inset Left,Door Height
+1,A,Dropdown Full,36,48,yes,no,36,0,16
+1,B,Standard,44,48,yes,no,,,
+1,C,Standard,36,48,yes,no,,,
+1,D,Standard,44,48,yes,no,,,
+2,A,Removable,32,48,yes,yes,,,
+2,B,Removable,32,48,yes,yes,,,
+2,C,Removable,32,48,yes,yes,,,
+2,D,Removable,32,48,yes,yes,,,
