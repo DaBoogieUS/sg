@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' lang='en-UK'>
+  <head>
+    <title>Testing canvas-getsvg</title>
+    <meta http-equiv='Content-Type' content='application/xhtml+xml; charset=utf-8'/>
+    <style type='text/css'>
+    </style>
+    <script type='application/ecmascript' src='http://ajax.googleapis.com/ajax/libs/dojo/1.3.1/dojo/dojo.xd.js'></script>
+    <script type='application/ecmascript' src='canvas-getsvg.js'></script>
+    <script type='application/ecmascript' src='canvas-tests.js'></script>
+    <script type='application/ecmascript'><![CDATA[
+      dojo.require("dojox.json.ref");
+      function runTest_STATIC (func) {
+          // setup
+          var cs = new CanvasSVG.Deferred();
+          var canvas = cleanCanvas(document.getElementById('canvas'));
+          cs.wrapCanvas(canvas);
+          var ctx = canvas.getContext('2d');
+          // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // run
+          func(ctx);
+          
+          // dump JSON and SVG
+          dojo.byId('dump').textContent = dojox.json.ref.toJson(cs.state, true);
+          var svg = dojo.byId('svg');
+          svg.textContent = "";
+          svg.appendChild(ctx.getSVG());
+          dojo.byId('dumpSVG').textContent = dojo.byId('svg').innerHTML.split("><").join(">\n<");
+      }
+      // XXX
+      //  - clean the canvas properly by re-creating it each time (if necessary using provided size)
+      
+      function runTest_LIVE (func) {
+          // setup
+          var cs = new CanvasSVG.Live();
+          var canvas = cleanCanvas(document.getElementById('canvas'));
+          cs.wrapCanvas(canvas);
+          var ctx = canvas.getContext('2d');
+          var svg = dojo.byId('svg');
+          svg.textContent = "";
+          ctx.setParent(svg);
+          // ctx.clearRect(0, 0, canvas.width, canvas.height);
+          // run
+          func(ctx);
+      }
+
+      var ns = "http://www.w3.org/1999/xhtml";
+      function listTests (type) {
+          var fn;
+          var tests = dojo.byId("tests");
+          tests.textContent = "";
+          if (!type) type = "static";
+          var list;
+          if (type == "live") {
+              list = canvasTestsLive;
+              runTest = runTest_LIVE;
+          }
+          else {
+            list = canvasTests;
+            runTest = runTest_STATIC;
+          }
+          for (var i = 0; i < list.length; i++) {
+              var t = list[i];
+              var li = document.createElementNS(ns, "li");
+              var a =  document.createElementNS(ns, "a");
+              a.setAttributeNS(null, "href", "#");
+              a.onclick = makeCB(t.func);
+              a.appendChild(document.createTextNode(t.name));
+              li.appendChild(a);
+              tests.appendChild(li);
+          }
+      }
+      function makeCB (fn) {
+          return function () { runTest(fn); };
+      }
+      function cleanCanvas (canvas) {
+          var cel = document.createElementNS(ns, "canvas");
+          cel.setAttributeNS(null, 'width', canvas.width);
+          cel.setAttributeNS(null, 'height', canvas.height);
+          cel.setAttributeNS(null, 'style', canvas.getAttributeNS(null, 'style'));
+          canvas.parentNode.replaceChild(cel, canvas);
+          cel.setAttributeNS(null, 'id', "canvas");
+          dojo.byId('svg').textContent = "";
+          return cel;
+      }
+      dojo.addOnLoad(listTests);
+    ]]></script>
+  </head>
+  <body>
+    <div id='content'>
+      <button onclick='listTests("static")'>Static</button>
+      <button onclick='listTests("live")'>Live</button>
+      <table>
+        <tr>
+          <td rowspan='2' valign='top'>
+            <ul id='tests'></ul>
+          </td>
+          <td valign='top'>
+            <canvas width='450' height='220' id='canvas' style='border: 1px solid #000'>Your browser doesn't support canvas</canvas>
+          </td>
+          <td valign='top'>
+            <div id='svg' style='border: 1px solid #000'></div>
+          </td>
+        </tr>
+        <tr>
+          <td valign='top'>
+            <pre id='dump'></pre>
+          </td>
+          <td valign='top'>
+            <pre id='dumpSVG'></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
